@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopify Polaris Web Components — Documentation</title>
+    <style>
+      /* ── Reset & base ────────────────────────────────────────────── */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --color-bg:             #f6f6f7;
+        --color-surface:        #ffffff;
+        --color-surface-subdued:#f9fafb;
+        --color-border:         #e1e3e5;
+        --color-text:           #202223;
+        --color-text-subdued:   #6d7175;
+        --color-interactive:    #2c6ecb;
+        --color-interactive-hovered: #1f5199;
+        --color-primary:        #008060;
+        --color-primary-hovered:#006e52;
+        --color-critical:       #d82c0d;
+        --color-success:        #008060;
+        --color-warning:        #ffc453;
+        --color-highlight:      #005bd3;
+        --font-sans:            -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+        --font-mono:            "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        --shadow-card:          0 0 0 1px rgba(63,63,68,.05), 0 1px 3px 0 rgba(63,63,68,.15);
+        --nav-width:            260px;
+        --header-height:        56px;
+        --border-radius:        8px;
+      }
+
+      html { font-size: 62.5%; scroll-behavior: smooth; }
+
+      body {
+        font-family: var(--font-sans);
+        font-size: 1.4rem;
+        line-height: 1.6;
+        color: var(--color-text);
+        background: var(--color-bg);
+        min-height: 100vh;
+      }
+
+      a { color: var(--color-interactive); text-decoration: none; }
+      a:hover { color: var(--color-interactive-hovered); text-decoration: underline; }
+
+      code, pre {
+        font-family: var(--font-mono);
+        font-size: 1.3rem;
+      }
+
+      pre {
+        background: #1e1e2e;
+        color: #cdd6f4;
+        padding: 1.6rem;
+        border-radius: var(--border-radius);
+        overflow-x: auto;
+        line-height: 1.5;
+      }
+
+      code:not(pre code) {
+        background: #f3f4f6;
+        color: #c0392b;
+        padding: .2rem .5rem;
+        border-radius: 4px;
+        font-size: 1.25rem;
+      }
+
+      /* ── Header ──────────────────────────────────────────────────── */
+      .site-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--header-height);
+        background: var(--color-text);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        padding: 0 2rem;
+        z-index: 100;
+        gap: 1.6rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,.3);
+      }
+
+      .site-header .logo {
+        display: flex;
+        align-items: center;
+        gap: .8rem;
+        text-decoration: none;
+        color: #fff;
+      }
+
+      .site-header .logo svg { width: 28px; height: 28px; flex-shrink: 0; }
+
+      .site-header .logo-name {
+        font-size: 1.6rem;
+        font-weight: 700;
+        letter-spacing: -.02em;
+      }
+
+      .site-header .logo-sub {
+        font-size: 1.2rem;
+        font-weight: 400;
+        opacity: .7;
+        margin-left: .4rem;
+      }
+
+      .header-spacer { flex: 1; }
+
+      .header-badge {
+        background: var(--color-primary);
+        color: #fff;
+        padding: .3rem 1rem;
+        border-radius: 2rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      /* ── Sidebar nav ─────────────────────────────────────────────── */
+      .sidebar {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        bottom: 0;
+        width: var(--nav-width);
+        background: var(--color-surface);
+        border-right: 1px solid var(--color-border);
+        overflow-y: auto;
+        padding: 2rem 0 4rem;
+        z-index: 90;
+      }
+
+      .nav-section-title {
+        padding: 1.2rem 2rem .4rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        color: var(--color-text-subdued);
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: .8rem;
+        padding: .7rem 2rem;
+        color: var(--color-text);
+        font-size: 1.4rem;
+        border-left: 3px solid transparent;
+        transition: background .15s, border-color .15s;
+      }
+
+      .nav-link:hover {
+        background: var(--color-bg);
+        text-decoration: none;
+        color: var(--color-text);
+      }
+
+      .nav-link.active {
+        background: #f0f7ff;
+        border-left-color: var(--color-interactive);
+        color: var(--color-interactive);
+        font-weight: 600;
+      }
+
+      /* ── Main content ────────────────────────────────────────────── */
+      .main-wrapper {
+        margin-left: var(--nav-width);
+        margin-top: var(--header-height);
+        min-height: calc(100vh - var(--header-height));
+      }
+
+      .content {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 4rem 3rem 6rem;
+      }
+
+      /* ── Pages ───────────────────────────────────────────────────── */
+      .page { display: none; }
+      .page.active { display: block; }
+
+      /* ── Hero ────────────────────────────────────────────────────── */
+      .hero {
+        text-align: center;
+        padding: 5rem 2rem 4rem;
+      }
+
+      .hero-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--color-primary), #004c3f);
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 2.4rem;
+      }
+
+      .hero-icon svg { width: 44px; height: 44px; fill: #fff; }
+
+      .hero h1 {
+        font-size: 3.6rem;
+        font-weight: 800;
+        letter-spacing: -.04em;
+        margin-bottom: 1.2rem;
+        color: var(--color-text);
+      }
+
+      .hero p {
+        font-size: 1.8rem;
+        color: var(--color-text-subdued);
+        max-width: 560px;
+        margin: 0 auto 3.2rem;
+        line-height: 1.5;
+      }
+
+      .hero-actions { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
+
+      /* ── Feature grid ────────────────────────────────────────────── */
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.6rem;
+        margin: 4rem 0;
+      }
+
+      .feature-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        box-shadow: var(--shadow-card);
+      }
+
+      .feature-card .icon {
+        font-size: 2.8rem;
+        margin-bottom: 1rem;
+      }
+
+      .feature-card h3 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: .6rem;
+      }
+
+      .feature-card p {
+        font-size: 1.3rem;
+        color: var(--color-text-subdued);
+        line-height: 1.5;
+      }
+
+      /* ── Component grid ──────────────────────────────────────────── */
+      .component-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1.6rem;
+        margin: 2.4rem 0;
+      }
+
+      .component-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--border-radius);
+        padding: 1.6rem;
+        box-shadow: var(--shadow-card);
+        cursor: pointer;
+        transition: box-shadow .15s, transform .15s;
+        text-align: left;
+        width: 100%;
+        font-family: inherit;
+      }
+
+      .component-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,.12);
+        transform: translateY(-1px);
+      }
+
+      .component-card .comp-icon { font-size: 2.4rem; margin-bottom: .8rem; }
+      .component-card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: .4rem; }
+      .component-card p { font-size: 1.2rem; color: var(--color-text-subdued); }
+
+      /* ── Buttons ─────────────────────────────────────────────────── */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: .6rem;
+        padding: .8rem 1.6rem;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 1.4rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background .15s, box-shadow .15s;
+        border: 1px solid transparent;
+        text-decoration: none;
+      }
+
+      .btn-primary {
+        background: var(--color-primary);
+        color: #fff;
+        border-color: var(--color-primary);
+      }
+
+      .btn-primary:hover {
+        background: var(--color-primary-hovered);
+        border-color: var(--color-primary-hovered);
+        color: #fff;
+        text-decoration: none;
+      }
+
+      .btn-default {
+        background: var(--color-surface);
+        color: var(--color-text);
+        border-color: var(--color-border);
+        box-shadow: 0 1px 0 rgba(0,0,0,.05);
+      }
+
+      .btn-default:hover {
+        background: #f6f6f7;
+        color: var(--color-text);
+        text-decoration: none;
+      }
+
+      /* ── Component doc page ──────────────────────────────────────── */
+      .doc-header {
+        margin-bottom: 3.2rem;
+        padding-bottom: 2.4rem;
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .doc-header .breadcrumb {
+        font-size: 1.3rem;
+        color: var(--color-text-subdued);
+        margin-bottom: .8rem;
+      }
+
+      .doc-header .breadcrumb a { color: var(--color-interactive); }
+
+      .doc-header h1 {
+        font-size: 3.2rem;
+        font-weight: 800;
+        letter-spacing: -.03em;
+        margin-bottom: .8rem;
+      }
+
+      .doc-header .subtitle {
+        font-size: 1.6rem;
+        color: var(--color-text-subdued);
+        line-height: 1.5;
+      }
+
+      /* ── Content typography ──────────────────────────────────────── */
+      .content-body h2 {
+        font-size: 2.4rem;
+        font-weight: 700;
+        letter-spacing: -.02em;
+        margin: 3.2rem 0 1.2rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--color-border);
+        color: var(--color-text);
+      }
+
+      .content-body h2:first-child { margin-top: 0; border-top: none; padding-top: 0; }
+
+      .content-body h3 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 2.4rem 0 .8rem;
+        color: var(--color-text);
+      }
+
+      .content-body p { margin-bottom: 1.2rem; line-height: 1.7; font-size: 1.5rem; }
+      .content-body ul, .content-body ol { margin: 1rem 0 1.6rem 2rem; }
+      .content-body li { margin-bottom: .4rem; font-size: 1.5rem; line-height: 1.6; }
+
+      /* ── Demo area ───────────────────────────────────────────────── */
+      .demo-area {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--border-radius);
+        padding: 2.4rem;
+        margin: 1.6rem 0 .8rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 1.2rem;
+        min-height: 80px;
+        box-shadow: var(--shadow-card);
+      }
+
+      /* ── Example blocks ──────────────────────────────────────────── */
+      .example-block {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        margin: 2rem 0;
+        box-shadow: var(--shadow-card);
+      }
+
+      .example-label {
+        padding: .8rem 1.6rem;
+        background: var(--color-surface-subdued);
+        border-bottom: 1px solid var(--color-border);
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--color-text-subdued);
+        text-transform: uppercase;
+        letter-spacing: .06em;
+      }
+
+      .example-preview {
+        padding: 2.4rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 1.2rem;
+      }
+
+      .example-code { margin: 0; border-radius: 0; }
+
+      /* ── Props table ─────────────────────────────────────────────── */
+      .props-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.6rem 0 2.4rem;
+        font-size: 1.3rem;
+        box-shadow: var(--shadow-card);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+      }
+
+      .props-table th {
+        background: var(--color-surface-subdued);
+        padding: 1rem 1.4rem;
+        text-align: left;
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        color: var(--color-text-subdued);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .props-table td {
+        padding: .9rem 1.4rem;
+        border-bottom: 1px solid var(--color-border);
+        vertical-align: top;
+        line-height: 1.5;
+      }
+
+      .props-table tr:last-child td { border-bottom: none; }
+      .props-table tbody tr:hover td { background: #fafafa; }
+
+      /* ── Polaris component simulations ───────────────────────────── */
+      .p-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: .6rem;
+        padding: .7rem 1.6rem;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 1.4rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1px solid #c9cccf;
+        background: #fff;
+        color: #202223;
+        box-shadow: 0 1px 0 rgba(0,0,0,.08);
+        transition: all .12s;
+      }
+
+      .p-btn:hover { background: #f6f6f7; }
+
+      .p-btn.primary { background: #008060; border-color: #008060; color: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.2); }
+      .p-btn.primary:hover { background: #006e52; border-color: #006e52; }
+
+      .p-btn.destructive { background: #d82c0d; border-color: #d82c0d; color: #fff; }
+      .p-btn.destructive:hover { background: #bc2200; }
+
+      .p-btn.plain { background: transparent; border-color: transparent; color: #2c6ecb; box-shadow: none; }
+      .p-btn.plain:hover { background: #f0f0f0; }
+
+      .p-btn.slim { padding: .4rem 1.2rem; font-size: 1.3rem; }
+      .p-btn.large { padding: 1rem 2rem; font-size: 1.6rem; }
+
+      .p-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+      .p-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        padding: .3rem .8rem;
+        border-radius: 2rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+        background: #e4e5e7;
+        color: #6d7175;
+      }
+
+      .p-badge.success  { background: #aee9d1; color: #0d3b2e; }
+      .p-badge.info     { background: #a4cdfe; color: #0b2742; }
+      .p-badge.warning  { background: #ffea8a; color: #4a3728; }
+      .p-badge.critical { background: #fead9a; color: #4c0000; }
+      .p-badge.attention{ background: #ffe9a0; color: #3d2c00; }
+
+      .p-badge.small { font-size: 1.1rem; padding: .2rem .6rem; }
+
+      .p-spinner {
+        width: 28px; height: 28px;
+        border: 3px solid #e4e5e7;
+        border-top-color: #008060;
+        border-radius: 50%;
+        animation: spin .7s linear infinite;
+        display: inline-block;
+      }
+
+      .p-spinner.small { width: 16px; height: 16px; border-width: 2px; }
+
+      @keyframes spin { to { transform: rotate(360deg); } }
+
+      .p-text-field {
+        display: flex;
+        flex-direction: column;
+        gap: .4rem;
+        width: 100%;
+      }
+
+      .p-text-field label {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #202223;
+      }
+
+      .p-text-field input, .p-text-field textarea {
+        padding: .8rem 1.2rem;
+        border: 1px solid #c9cccf;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 1.4rem;
+        color: #202223;
+        background: #fff;
+        transition: border-color .15s, box-shadow .15s;
+        width: 100%;
+      }
+
+      .p-text-field input:focus, .p-text-field textarea:focus {
+        outline: none;
+        border-color: #2c6ecb;
+        box-shadow: 0 0 0 3px rgba(44,110,203,.15);
+      }
+
+      .p-text-field input.error { border-color: #d82c0d; }
+      .p-text-field .help-text { font-size: 1.2rem; color: #6d7175; }
+      .p-text-field .error-text { font-size: 1.2rem; color: #d82c0d; }
+
+      .p-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 0 1px rgba(63,63,68,.05), 0 1px 3px 0 rgba(63,63,68,.15);
+        overflow: hidden;
+      }
+
+      .p-card-header {
+        padding: 1.6rem 2rem;
+        border-bottom: 1px solid #e1e3e5;
+        font-size: 1.6rem;
+        font-weight: 700;
+      }
+
+      .p-card-body { padding: 1.6rem 2rem; }
+
+      .p-banner {
+        border-radius: 8px;
+        padding: 1.2rem 1.6rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        font-size: 1.4rem;
+        border: 1px solid;
+        width: 100%;
+      }
+
+      .p-banner.info     { background: #eaf4fe; border-color: #a4cdfe; color: #0b2742; }
+      .p-banner.success  { background: #f1f9f5; border-color: #aee9d1; color: #0d3b2e; }
+      .p-banner.warning  { background: #fffbe6; border-color: #ffea8a; color: #4a3728; }
+      .p-banner.critical { background: #fff4f4; border-color: #fead9a; color: #4c0000; }
+
+      .p-banner .banner-title { font-weight: 700; margin-bottom: .3rem; font-size: 1.5rem; }
+      .p-banner .banner-icon  { font-size: 2rem; flex-shrink: 0; margin-top: .1rem; }
+
+      /* ── Install block ───────────────────────────────────────────── */
+      .install-block {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--border-radius);
+        margin: 2.4rem 0;
+        overflow: hidden;
+        box-shadow: var(--shadow-card);
+      }
+
+      .install-block pre {
+        margin: 0;
+        border-radius: 0;
+        border-top: 1px solid var(--color-border);
+      }
+
+      .install-block-header {
+        padding: 1rem 1.6rem;
+        font-size: 1.3rem;
+        font-weight: 700;
+        background: var(--color-surface-subdued);
+        color: var(--color-text-subdued);
+      }
+
+      /* ── Footer ──────────────────────────────────────────────────── */
+      .site-footer {
+        text-align: center;
+        padding: 3.2rem 2rem;
+        color: var(--color-text-subdued);
+        font-size: 1.3rem;
+        border-top: 1px solid var(--color-border);
+        margin-top: 4rem;
+      }
+
+      /* ── Responsive ──────────────────────────────────────────────── */
+      @media (max-width: 768px) {
+        :root { --nav-width: 0px; }
+        .sidebar { transform: translateX(-260px); transition: transform .25s; width: 260px; }
+        .sidebar.open { transform: translateX(0); }
+        .main-wrapper { margin-left: 0; }
+        .content { padding: 2.4rem 1.6rem 4rem; }
+        .hero h1 { font-size: 2.8rem; }
+        .hamburger { display: flex !important; }
+      }
+
+      .hamburger {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: .4rem;
+        color: #fff;
+        font-size: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- ── Header ────────────────────────────────────────────────── -->
+    <header class="site-header">
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation">☰</button>
+
+      <a class="logo" href="#" onclick="showPage('home')">
+        <!-- Shopify bag icon -->
+        <svg viewBox="0 0 109.5 124.5" xmlns="http://www.w3.org/2000/svg" fill="#fff">
+          <path d="M74.7,14.8c0,0-1.4,0.4-3.7,1.1c-0.4-1.3-1-2.8-1.8-4.4c-2.6-5-6.5-7.7-11.1-7.7c0,0,0,0,0,0 c-0.3,0-0.6,0-1,0.1c-0.1-0.2-0.3-0.3-0.4-0.5c-2-2.2-4.6-3.2-7.7-3.1C42.1,0.5,35,5.9,29.4,15.9c-3.9,6.9-6.8,15.6-7.7,22.3 c-7.8,2.4-13.3,4.1-13.4,4.2C4.6,44,4.5,44.1,4.4,46.2C4.3,47.7,0,80.6,0,80.6L75.6,93.5V14.6C75.2,14.7,74.9,14.8,74.7,14.8z M57.4,19.9c-5.2,1.6-10.9,3.4-16.5,5.1c1.6-6.1,4.6-12.2,8.2-16.2c1.4-1.4,3.2-3,5.3-4C56.4,9.8,57.5,15.3,57.4,19.9z M48.2,5.3c1.7,0,3.2,0.4,4.5,1.2c-2,1.1-3.9,2.7-5.7,4.6c-4.7,5-8.3,12.8-9.8,20.3c-4.5,1.4-8.9,2.7-13,4 C27,25.1,36.9,5.6,48.2,5.3z M44.2,56.5c0.4,6.4,17.2,7.8,18.2,22.9c0.7,11.9-6.3,20-16.4,20.6c-12.2,0.7-18.9-6.4-18.9-6.4 l2.6-11c0,0,6.7,5.1,12.1,4.7c3.5-0.2,4.8-3.1,4.7-5.1c-0.5-8.4-14.2-7.9-15.1-21.7c-0.7-11.6,6.9-23.4,23.7-24.4 c6.5-0.4,9.8,1.2,9.8,1.2l-3.8,14.4c0,0-4.3-2-9.4-1.6C45.6,50.6,44.1,53.4,44.2,56.5z M61.5,18.9c0-4.2-0.6-10.2-2.5-15.2 c6.4,1.2,9.5,8.4,10.8,12.7C67.3,17.2,64.5,18,61.5,18.9z"/>
+          <path d="M77.3,93.2l32.2-8c0,0-13.8-93.4-13.9-94c-0.1-0.6-0.6-1-1.1-1c-0.5,0-9.8-0.2-9.8-0.2s-5.7-5.5-7.8-7.5 v110.7H77.3z"/>
+        </svg>
+        <span class="logo-name">Polaris<span class="logo-sub">Web Components</span></span>
+      </a>
+
+      <div class="header-spacer"></div>
+      <span class="header-badge">v12</span>
+    </header>
+
+    <!-- ── Sidebar ────────────────────────────────────────────────── -->
+    <nav class="sidebar" id="sidebar">
+      <div class="nav-section-title">Getting Started</div>
+      <a class="nav-link active" href="#" data-page="home" onclick="showPage('home');return false;">Overview</a>
+      <a class="nav-link" href="#" data-page="getting-started" onclick="showPage('getting-started');return false;">Installation</a>
+
+      <div class="nav-section-title">Actions</div>
+      <a class="nav-link" href="#" data-page="button" onclick="showPage('button');return false;">Button</a>
+
+      <div class="nav-section-title">Forms</div>
+      <a class="nav-link" href="#" data-page="text-field" onclick="showPage('text-field');return false;">TextField</a>
+      <a class="nav-link" href="#" data-page="select" onclick="showPage('select');return false;">Select</a>
+      <a class="nav-link" href="#" data-page="checkbox" onclick="showPage('checkbox');return false;">Checkbox</a>
+      <a class="nav-link" href="#" data-page="radio-button" onclick="showPage('radio-button');return false;">RadioButton</a>
+
+      <div class="nav-section-title">Feedback</div>
+      <a class="nav-link" href="#" data-page="badge" onclick="showPage('badge');return false;">Badge</a>
+      <a class="nav-link" href="#" data-page="banner" onclick="showPage('banner');return false;">Banner</a>
+      <a class="nav-link" href="#" data-page="spinner" onclick="showPage('spinner');return false;">Spinner</a>
+
+      <div class="nav-section-title">Structure</div>
+      <a class="nav-link" href="#" data-page="card" onclick="showPage('card');return false;">Card</a>
+      <a class="nav-link" href="#" data-page="page-component" onclick="showPage('page-component');return false;">Page</a>
+      <a class="nav-link" href="#" data-page="layout" onclick="showPage('layout');return false;">Layout</a>
+
+      <div class="nav-section-title">Overlays</div>
+      <a class="nav-link" href="#" data-page="modal" onclick="showPage('modal');return false;">Modal</a>
+      <a class="nav-link" href="#" data-page="popover" onclick="showPage('popover');return false;">Popover</a>
+      <a class="nav-link" href="#" data-page="tooltip" onclick="showPage('tooltip');return false;">Tooltip</a>
+
+      <div class="nav-section-title">Images & Icons</div>
+      <a class="nav-link" href="#" data-page="icon" onclick="showPage('icon');return false;">Icon</a>
+    </nav>
+
+    <!-- ── Main ──────────────────────────────────────────────────── -->
+    <main class="main-wrapper">
+      <div class="content">
+
+        <!-- ═══ HOME ═══ -->
+        <section class="page active" id="page-home">
+          <div class="hero">
+            <div class="hero-icon">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <h1>Polaris Web Components</h1>
+            <p>Framework-agnostic custom elements that implement the Shopify Polaris design language. Build high-quality merchant interfaces faster.</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" onclick="showPage('getting-started')">Get started</button>
+              <button class="btn btn-default" onclick="showPage('button')">Browse components</button>
+            </div>
+          </div>
+
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="icon">⚡</div>
+              <h3>Framework-agnostic</h3>
+              <p>Works with React, Vue, Angular, Svelte, or plain HTML. No framework lock-in.</p>
+            </div>
+            <div class="feature-card">
+              <div class="icon">♿</div>
+              <h3>Accessible by default</h3>
+              <p>Every component meets WCAG 2.1 AA standards with built-in ARIA attributes.</p>
+            </div>
+            <div class="feature-card">
+              <div class="icon">🎨</div>
+              <h3>Themeable</h3>
+              <p>CSS custom properties expose all design tokens for easy customisation.</p>
+            </div>
+            <div class="feature-card">
+              <div class="icon">📦</div>
+              <h3>Tree-shakeable</h3>
+              <p>ES modules mean you only ship the components you actually use.</p>
+            </div>
+          </div>
+
+          <h2 style="font-size:2.4rem;font-weight:700;margin-bottom:1.6rem;">Components</h2>
+
+          <h3 style="font-size:1.6rem;font-weight:700;color:#6d7175;text-transform:uppercase;letter-spacing:.06em;margin:2rem 0 1.2rem;">Actions</h3>
+          <div class="component-grid">
+            <button class="component-card" onclick="showPage('button')">
+              <div class="comp-icon">🔘</div>
+              <h3>Button</h3>
+              <p>Trigger actions or navigate.</p>
+            </button>
+          </div>
+
+          <h3 style="font-size:1.6rem;font-weight:700;color:#6d7175;text-transform:uppercase;letter-spacing:.06em;margin:2rem 0 1.2rem;">Forms</h3>
+          <div class="component-grid">
+            <button class="component-card" onclick="showPage('text-field')">
+              <div class="comp-icon">✏️</div>
+              <h3>TextField</h3>
+              <p>Enter and edit text.</p>
+            </button>
+            <button class="component-card" onclick="showPage('select')">
+              <div class="comp-icon">▾</div>
+              <h3>Select</h3>
+              <p>Choose one option from a list.</p>
+            </button>
+            <button class="component-card" onclick="showPage('checkbox')">
+              <div class="comp-icon">☑️</div>
+              <h3>Checkbox</h3>
+              <p>Toggle a setting on or off.</p>
+            </button>
+            <button class="component-card" onclick="showPage('radio-button')">
+              <div class="comp-icon">🔵</div>
+              <h3>RadioButton</h3>
+              <p>Choose one option from a set.</p>
+            </button>
+          </div>
+
+          <h3 style="font-size:1.6rem;font-weight:700;color:#6d7175;text-transform:uppercase;letter-spacing:.06em;margin:2rem 0 1.2rem;">Feedback Indicators</h3>
+          <div class="component-grid">
+            <button class="component-card" onclick="showPage('badge')">
+              <div class="comp-icon">🏷️</div>
+              <h3>Badge</h3>
+              <p>Communicate object status.</p>
+            </button>
+            <button class="component-card" onclick="showPage('banner')">
+              <div class="comp-icon">📢</div>
+              <h3>Banner</h3>
+              <p>Display important messages.</p>
+            </button>
+            <button class="component-card" onclick="showPage('spinner')">
+              <div class="comp-icon">⏳</div>
+              <h3>Spinner</h3>
+              <p>Show a loading state.</p>
+            </button>
+          </div>
+
+          <h3 style="font-size:1.6rem;font-weight:700;color:#6d7175;text-transform:uppercase;letter-spacing:.06em;margin:2rem 0 1.2rem;">Structure</h3>
+          <div class="component-grid">
+            <button class="component-card" onclick="showPage('card')">
+              <div class="comp-icon">🃏</div>
+              <h3>Card</h3>
+              <p>Group related content.</p>
+            </button>
+            <button class="component-card" onclick="showPage('page-component')">
+              <div class="comp-icon">📄</div>
+              <h3>Page</h3>
+              <p>Build the page wrapper.</p>
+            </button>
+            <button class="component-card" onclick="showPage('layout')">
+              <div class="comp-icon">⬜</div>
+              <h3>Layout</h3>
+              <p>Arrange content in a grid.</p>
+            </button>
+          </div>
+
+          <h3 style="font-size:1.6rem;font-weight:700;color:#6d7175;text-transform:uppercase;letter-spacing:.06em;margin:2rem 0 1.2rem;">Overlays</h3>
+          <div class="component-grid">
+            <button class="component-card" onclick="showPage('modal')">
+              <div class="comp-icon">🪟</div>
+              <h3>Modal</h3>
+              <p>Interrupt with urgent actions.</p>
+            </button>
+            <button class="component-card" onclick="showPage('popover')">
+              <div class="comp-icon">💬</div>
+              <h3>Popover</h3>
+              <p>Contextual actions overlay.</p>
+            </button>
+            <button class="component-card" onclick="showPage('tooltip')">
+              <div class="comp-icon">ℹ️</div>
+              <h3>Tooltip</h3>
+              <p>Additional hover/focus info.</p>
+            </button>
+          </div>
+
+          <h3 style="font-size:1.6rem;font-weight:700;color:#6d7175;text-transform:uppercase;letter-spacing:.06em;margin:2rem 0 1.2rem;">Images & Icons</h3>
+          <div class="component-grid">
+            <button class="component-card" onclick="showPage('icon')">
+              <div class="comp-icon">🔷</div>
+              <h3>Icon</h3>
+              <p>SVG icons from the icon set.</p>
+            </button>
+          </div>
+        </section>
+
+        <!-- ═══ GETTING STARTED ═══ -->
+        <section class="page" id="page-getting-started">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Getting Started</div>
+            <h1>Installation</h1>
+            <p class="subtitle">Add Polaris web components to your project in minutes.</p>
+          </div>
+          <div class="content-body">
+            <h2>npm</h2>
+            <p>Install the package from the npm registry:</p>
+            <div class="install-block">
+              <div class="install-block-header">Terminal</div>
+              <pre>npm install @shopify/polaris</pre>
+            </div>
+            <p>Then import the package in your JavaScript entry point:</p>
+            <div class="install-block">
+              <div class="install-block-header">JavaScript</div>
+              <pre>import '@shopify/polaris';
+import '@shopify/polaris/build/esm/styles.css';</pre>
+            </div>
+
+            <h2>CDN</h2>
+            <p>For prototyping or non-bundled projects, include the CDN bundle directly:</p>
+            <div class="install-block">
+              <div class="install-block-header">HTML</div>
+              <pre>&lt;link rel="stylesheet"
+      href="https://unpkg.com/@shopify/polaris/build/esm/styles.css" /&gt;
+&lt;script type="module"
+        src="https://unpkg.com/@shopify/polaris/build/esm/index.js"&gt;&lt;/script&gt;</pre>
+            </div>
+
+            <h2>Basic usage</h2>
+            <p>Once installed, use the components directly in HTML:</p>
+            <div class="install-block">
+              <div class="install-block-header">HTML</div>
+              <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;title&gt;My Shopify App&lt;/title&gt;
+  &lt;link rel="stylesheet"
+        href="https://unpkg.com/@shopify/polaris/build/esm/styles.css" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p-button variant="primary"&gt;Save changes&lt;/p-button&gt;
+
+  &lt;script type="module"&gt;
+    import 'https://unpkg.com/@shopify/polaris/build/esm/index.js';
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+            </div>
+
+            <h2>With React</h2>
+            <div class="install-block">
+              <div class="install-block-header">React (JSX)</div>
+              <pre>import '@shopify/polaris';
+import '@shopify/polaris/build/esm/styles.css';
+
+export default function MyComponent() {
+  return (
+    &lt;p-button variant="primary"
+              onP-click={() =&gt; console.log('Clicked!')}&gt;
+      Save changes
+    &lt;/p-button&gt;
+  );
+}</pre>
+            </div>
+
+            <h2>Browser support</h2>
+            <p>Polaris web components support all modern browsers that implement the Custom Elements v1 specification:</p>
+            <ul>
+              <li>Chrome 67+</li>
+              <li>Firefox 63+</li>
+              <li>Safari 12.1+</li>
+              <li>Edge 79+</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ═══ BUTTON ═══ -->
+        <section class="page" id="page-button">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Actions</div>
+            <h1>Button</h1>
+            <p class="subtitle">Buttons trigger actions or navigate to a new location. Use them for the most important actions on a page.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+
+            <div class="example-block">
+              <div class="example-label">Default</div>
+              <div class="example-preview">
+                <button class="p-btn">Add product</button>
+              </div>
+              <pre class="example-code">&lt;p-button&gt;Add product&lt;/p-button&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">Primary</div>
+              <div class="example-preview">
+                <button class="p-btn primary">Save changes</button>
+              </div>
+              <pre class="example-code">&lt;p-button variant="primary"&gt;Save changes&lt;/p-button&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">Destructive</div>
+              <div class="example-preview">
+                <button class="p-btn destructive">Delete product</button>
+              </div>
+              <pre class="example-code">&lt;p-button variant="destructive"&gt;Delete product&lt;/p-button&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">Plain</div>
+              <div class="example-preview">
+                <button class="p-btn plain">View details</button>
+              </div>
+              <pre class="example-code">&lt;p-button variant="plain"&gt;View details&lt;/p-button&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">Sizes</div>
+              <div class="example-preview">
+                <button class="p-btn slim">Slim</button>
+                <button class="p-btn">Medium</button>
+                <button class="p-btn large">Large</button>
+              </div>
+              <pre class="example-code">&lt;p-button size="slim"&gt;Slim&lt;/p-button&gt;
+&lt;p-button&gt;Medium&lt;/p-button&gt;
+&lt;p-button size="large"&gt;Large&lt;/p-button&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">Disabled</div>
+              <div class="example-preview">
+                <button class="p-btn" disabled>Save changes</button>
+                <button class="p-btn primary" disabled>Save changes</button>
+              </div>
+              <pre class="example-code">&lt;p-button disabled&gt;Save changes&lt;/p-button&gt;
+&lt;p-button variant="primary" disabled&gt;Save changes&lt;/p-button&gt;</pre>
+            </div>
+
+            <h2>Props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>variant</code></td><td>string</td><td><code>"default"</code></td><td>Visual style: <code>"primary"</code>, <code>"destructive"</code>, <code>"plain"</code>, <code>"monochrome"</code>.</td></tr>
+                <tr><td><code>size</code></td><td>string</td><td><code>"medium"</code></td><td>Size: <code>"slim"</code>, <code>"medium"</code>, <code>"large"</code>.</td></tr>
+                <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td>Prevents interaction.</td></tr>
+                <tr><td><code>loading</code></td><td>boolean</td><td><code>false</code></td><td>Shows a loading spinner; disables the button.</td></tr>
+                <tr><td><code>full-width</code></td><td>boolean</td><td><code>false</code></td><td>Makes the button fill its container.</td></tr>
+                <tr><td><code>url</code></td><td>string</td><td>—</td><td>Renders the button as an anchor element.</td></tr>
+                <tr><td><code>external</code></td><td>boolean</td><td><code>false</code></td><td>Opens <code>url</code> in a new tab.</td></tr>
+                <tr><td><code>disclosure</code></td><td>boolean</td><td><code>false</code></td><td>Shows a chevron indicating an overlay opens.</td></tr>
+                <tr><td><code>icon</code></td><td>string</td><td>—</td><td>Icon name to show before the button text.</td></tr>
+              </tbody>
+            </table>
+
+            <h2>Events</h2>
+            <table class="props-table">
+              <thead><tr><th>Event</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>click</code></td><td>Fired when the button is activated (unless <code>disabled</code> or <code>loading</code>).</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ BADGE ═══ -->
+        <section class="page" id="page-badge">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Feedback Indicators</div>
+            <h1>Badge</h1>
+            <p class="subtitle">Badges inform merchants about the status of an object or the result of an action.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+
+            <div class="example-block">
+              <div class="example-label">Status badges</div>
+              <div class="example-preview">
+                <span class="p-badge">Draft</span>
+                <span class="p-badge success">Active</span>
+                <span class="p-badge info">Open</span>
+                <span class="p-badge attention">On hold</span>
+                <span class="p-badge warning">Pending</span>
+                <span class="p-badge critical">Payment failed</span>
+              </div>
+              <pre class="example-code">&lt;p-badge&gt;Draft&lt;/p-badge&gt;
+&lt;p-badge status="success"&gt;Active&lt;/p-badge&gt;
+&lt;p-badge status="info"&gt;Open&lt;/p-badge&gt;
+&lt;p-badge status="attention"&gt;On hold&lt;/p-badge&gt;
+&lt;p-badge status="warning"&gt;Pending&lt;/p-badge&gt;
+&lt;p-badge status="critical"&gt;Payment failed&lt;/p-badge&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">Sizes</div>
+              <div class="example-preview">
+                <span class="p-badge success small">Active</span>
+                <span class="p-badge success">Active</span>
+              </div>
+              <pre class="example-code">&lt;p-badge status="success" size="small"&gt;Active&lt;/p-badge&gt;
+&lt;p-badge status="success"&gt;Active&lt;/p-badge&gt;</pre>
+            </div>
+
+            <h2>Props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>status</code></td><td>string</td><td>—</td><td>Colour/meaning: <code>"success"</code>, <code>"info"</code>, <code>"attention"</code>, <code>"warning"</code>, <code>"critical"</code>.</td></tr>
+                <tr><td><code>progress</code></td><td>string</td><td>—</td><td>Progress icon: <code>"incomplete"</code>, <code>"partiallyComplete"</code>, <code>"complete"</code>.</td></tr>
+                <tr><td><code>size</code></td><td>string</td><td><code>"medium"</code></td><td>Badge size: <code>"small"</code>, <code>"medium"</code>.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ BANNER ═══ -->
+        <section class="page" id="page-banner">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Feedback Indicators</div>
+            <h1>Banner</h1>
+            <p class="subtitle">Banners communicate important changes or persistent conditions. They should be used sparingly.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+
+            <div class="example-block">
+              <div class="example-label">Informational</div>
+              <div class="example-preview" style="flex-direction:column;">
+                <div class="p-banner info">
+                  <span class="banner-icon">ℹ️</span>
+                  <div>
+                    <div class="banner-title">Before you add a product</div>
+                    Your store doesn't have the Shipping app installed. Install it before adding products.
+                  </div>
+                </div>
+              </div>
+              <pre class="example-code">&lt;p-banner title="Before you add a product" status="info"&gt;
+  Your store doesn't have the Shipping app installed.
+&lt;/p-banner&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">Success</div>
+              <div class="example-preview" style="flex-direction:column;">
+                <div class="p-banner success">
+                  <span class="banner-icon">✅</span>
+                  <div>
+                    <div class="banner-title">Shipment label created</div>
+                    Your shipping label for Order #1001 is ready to download.
+                  </div>
+                </div>
+              </div>
+              <pre class="example-code">&lt;p-banner title="Shipment label created" status="success" dismissible&gt;
+  Your shipping label for Order #1001 is ready to download.
+&lt;/p-banner&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">Warning</div>
+              <div class="example-preview" style="flex-direction:column;">
+                <div class="p-banner warning">
+                  <span class="banner-icon">⚠️</span>
+                  <div>
+                    <div class="banner-title">Some products are unavailable</div>
+                    5 products have 0 inventory. Update inventory to make them available.
+                  </div>
+                </div>
+              </div>
+              <pre class="example-code">&lt;p-banner title="Some products are unavailable" status="warning"&gt;
+  5 products have 0 inventory.
+&lt;/p-banner&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">Critical</div>
+              <div class="example-preview" style="flex-direction:column;">
+                <div class="p-banner critical">
+                  <span class="banner-icon">🚨</span>
+                  <div>
+                    <div class="banner-title">Your payment was declined</div>
+                    Add a new payment method to continue using Shopify.
+                  </div>
+                </div>
+              </div>
+              <pre class="example-code">&lt;p-banner title="Your payment was declined" status="critical"&gt;
+  Add a new payment method to continue using Shopify.
+&lt;/p-banner&gt;</pre>
+            </div>
+
+            <h2>Props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>title</code></td><td>string</td><td>—</td><td>Banner heading.</td></tr>
+                <tr><td><code>status</code></td><td>string</td><td>—</td><td><code>"success"</code>, <code>"info"</code>, <code>"warning"</code>, <code>"critical"</code>.</td></tr>
+                <tr><td><code>action-content</code></td><td>string</td><td>—</td><td>Label for the primary action button.</td></tr>
+                <tr><td><code>action-url</code></td><td>string</td><td>—</td><td>URL for the primary action.</td></tr>
+                <tr><td><code>secondary-action-content</code></td><td>string</td><td>—</td><td>Label for the secondary action.</td></tr>
+                <tr><td><code>dismissible</code></td><td>boolean</td><td><code>false</code></td><td>Shows a dismiss button.</td></tr>
+              </tbody>
+            </table>
+
+            <h2>Events</h2>
+            <table class="props-table">
+              <thead><tr><th>Event</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>p-action</code></td><td>Fires when the primary action is clicked.</td></tr>
+                <tr><td><code>p-dismiss</code></td><td>Fires when the dismiss button is clicked.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ SPINNER ═══ -->
+        <section class="page" id="page-spinner">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Feedback Indicators</div>
+            <h1>Spinner</h1>
+            <p class="subtitle">Spinners notify merchants that their action is being processed or that content is loading.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+            <div class="example-block">
+              <div class="example-label">Default (large)</div>
+              <div class="example-preview">
+                <div class="p-spinner"></div>
+              </div>
+              <pre class="example-code">&lt;p-spinner accessibility-label="Loading products"&gt;&lt;/p-spinner&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">Small</div>
+              <div class="example-preview">
+                <div class="p-spinner small"></div>
+              </div>
+              <pre class="example-code">&lt;p-spinner size="small" accessibility-label="Saving"&gt;&lt;/p-spinner&gt;</pre>
+            </div>
+
+            <h2>Props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>size</code></td><td>string</td><td><code>"large"</code></td><td>Size: <code>"small"</code>, <code>"large"</code>.</td></tr>
+                <tr><td><code>accessibility-label</code></td><td>string</td><td><code>"Loading"</code></td><td>Text announced to screen readers.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ TEXT FIELD ═══ -->
+        <section class="page" id="page-text-field">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Forms</div>
+            <h1>TextField</h1>
+            <p class="subtitle">Text fields let merchants enter and edit text. They support a variety of types and validation states.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+
+            <div class="example-block">
+              <div class="example-label">Basic</div>
+              <div class="example-preview" style="flex-direction:column; max-width:400px;">
+                <div class="p-text-field">
+                  <label>Product title</label>
+                  <input type="text" placeholder="Short sleeve T-shirt" />
+                </div>
+              </div>
+              <pre class="example-code">&lt;p-text-field
+  label="Product title"
+  placeholder="Short sleeve T-shirt"
+&gt;&lt;/p-text-field&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">With help text</div>
+              <div class="example-preview" style="flex-direction:column; max-width:400px;">
+                <div class="p-text-field">
+                  <label>Email</label>
+                  <input type="email" />
+                  <span class="help-text">We'll use this address to send order confirmations.</span>
+                </div>
+              </div>
+              <pre class="example-code">&lt;p-text-field
+  label="Email"
+  type="email"
+  help-text="We'll use this address to send order confirmations."
+&gt;&lt;/p-text-field&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">With error</div>
+              <div class="example-preview" style="flex-direction:column; max-width:400px;">
+                <div class="p-text-field">
+                  <label>Price</label>
+                  <input type="number" value="-5" class="error" />
+                  <span class="error-text">Price must be greater than zero.</span>
+                </div>
+              </div>
+              <pre class="example-code">&lt;p-text-field
+  label="Price"
+  type="number"
+  value="-5"
+  error="Price must be greater than zero."
+&gt;&lt;/p-text-field&gt;</pre>
+            </div>
+
+            <h2>Props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>label</code></td><td>string</td><td>—</td><td>Visible label. <strong>Required.</strong></td></tr>
+                <tr><td><code>value</code></td><td>string</td><td><code>""</code></td><td>Current field value.</td></tr>
+                <tr><td><code>type</code></td><td>string</td><td><code>"text"</code></td><td>HTML input type.</td></tr>
+                <tr><td><code>placeholder</code></td><td>string</td><td>—</td><td>Placeholder text.</td></tr>
+                <tr><td><code>help-text</code></td><td>string</td><td>—</td><td>Descriptive text below the field.</td></tr>
+                <tr><td><code>error</code></td><td>string</td><td>—</td><td>Error message; puts field in error state.</td></tr>
+                <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td>Prevents interaction.</td></tr>
+                <tr><td><code>read-only</code></td><td>boolean</td><td><code>false</code></td><td>Value readable but not editable.</td></tr>
+                <tr><td><code>multiline</code></td><td>boolean</td><td><code>false</code></td><td>Renders a <code>&lt;textarea&gt;</code>.</td></tr>
+                <tr><td><code>max-length</code></td><td>number</td><td>—</td><td>Maximum character count.</td></tr>
+                <tr><td><code>prefix</code></td><td>string</td><td>—</td><td>Text shown before the input value.</td></tr>
+                <tr><td><code>suffix</code></td><td>string</td><td>—</td><td>Text shown after the input value.</td></tr>
+              </tbody>
+            </table>
+
+            <h2>Events</h2>
+            <table class="props-table">
+              <thead><tr><th>Event</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>p-change</code></td><td>Fires when the value changes.</td></tr>
+                <tr><td><code>p-focus</code></td><td>Fires when the field receives focus.</td></tr>
+                <tr><td><code>p-blur</code></td><td>Fires when the field loses focus.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ SELECT ═══ -->
+        <section class="page" id="page-select">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Forms</div>
+            <h1>Select</h1>
+            <p class="subtitle">Select lets merchants choose one option from a list. Use it when there are 4 or more options.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+
+            <div class="example-block">
+              <div class="example-label">Basic</div>
+              <div class="example-preview" style="flex-direction:column; max-width:300px;">
+                <div class="p-text-field">
+                  <label>Country</label>
+                  <select style="padding:.8rem 1.2rem;border:1px solid #c9cccf;border-radius:6px;font-family:inherit;font-size:1.4rem;background:#fff;width:100%;">
+                    <option>Australia</option>
+                    <option>Canada</option>
+                    <option selected>United Kingdom</option>
+                    <option>United States</option>
+                  </select>
+                </div>
+              </div>
+              <pre class="example-code">&lt;p-select
+  label="Country"
+  options='[
+    { "label": "Australia",      "value": "AU" },
+    { "label": "Canada",         "value": "CA" },
+    { "label": "United Kingdom", "value": "GB" },
+    { "label": "United States",  "value": "US" }
+  ]'
+  value="GB"
+&gt;&lt;/p-select&gt;</pre>
+            </div>
+
+            <h2>Props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>label</code></td><td>string</td><td>—</td><td>Visible label. <strong>Required.</strong></td></tr>
+                <tr><td><code>options</code></td><td>JSON</td><td><code>[]</code></td><td>Array of <code>&#123; label, value &#125;</code> objects.</td></tr>
+                <tr><td><code>value</code></td><td>string</td><td>—</td><td>Currently selected value.</td></tr>
+                <tr><td><code>help-text</code></td><td>string</td><td>—</td><td>Descriptive text below the select.</td></tr>
+                <tr><td><code>error</code></td><td>string</td><td>—</td><td>Error message.</td></tr>
+                <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td>Prevents interaction.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ CHECKBOX ═══ -->
+        <section class="page" id="page-checkbox">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Forms</div>
+            <h1>Checkbox</h1>
+            <p class="subtitle">Checkboxes let merchants make multiple selections or confirm they have read and accepted terms.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+            <div class="example-block">
+              <div class="example-label">Basic</div>
+              <div class="example-preview" style="flex-direction:column;gap:.8rem;">
+                <label style="display:flex;align-items:center;gap:.8rem;font-size:1.4rem;cursor:pointer;">
+                  <input type="checkbox" style="width:16px;height:16px;" /> Publish to online store
+                </label>
+                <label style="display:flex;align-items:center;gap:.8rem;font-size:1.4rem;cursor:pointer;">
+                  <input type="checkbox" checked style="width:16px;height:16px;" /> Subscribe to marketing emails
+                </label>
+              </div>
+              <pre class="example-code">&lt;p-checkbox label="Publish to online store"&gt;&lt;/p-checkbox&gt;
+&lt;p-checkbox label="Subscribe to marketing emails" checked&gt;&lt;/p-checkbox&gt;</pre>
+            </div>
+
+            <h2>Props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>label</code></td><td>string</td><td>—</td><td>Visible label. <strong>Required.</strong></td></tr>
+                <tr><td><code>checked</code></td><td>boolean</td><td><code>false</code></td><td>Whether the checkbox is checked.</td></tr>
+                <tr><td><code>indeterminate</code></td><td>boolean</td><td><code>false</code></td><td>Shows a mixed state.</td></tr>
+                <tr><td><code>help-text</code></td><td>string</td><td>—</td><td>Descriptive text below the checkbox.</td></tr>
+                <tr><td><code>error</code></td><td>string</td><td>—</td><td>Error message.</td></tr>
+                <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td>Prevents interaction.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ RADIO BUTTON ═══ -->
+        <section class="page" id="page-radio-button">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Forms</div>
+            <h1>RadioButton</h1>
+            <p class="subtitle">Radio buttons present a list of options where only one can be selected at a time.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+            <div class="example-block">
+              <div class="example-label">Basic group</div>
+              <div class="example-preview" style="flex-direction:column;gap:.8rem;">
+                <label style="display:flex;align-items:center;gap:.8rem;font-size:1.4rem;cursor:pointer;">
+                  <input type="radio" name="demo-shipping" checked style="width:16px;height:16px;" /> Standard shipping — Free
+                </label>
+                <label style="display:flex;align-items:center;gap:.8rem;font-size:1.4rem;cursor:pointer;">
+                  <input type="radio" name="demo-shipping" style="width:16px;height:16px;" /> Express shipping — £9.99
+                </label>
+                <label style="display:flex;align-items:center;gap:.8rem;font-size:1.4rem;cursor:pointer;">
+                  <input type="radio" name="demo-shipping" style="width:16px;height:16px;" /> Next-day shipping — £19.99
+                </label>
+              </div>
+              <pre class="example-code">&lt;p-radio-button label="Standard — Free"   name="shipping" value="standard" checked&gt;&lt;/p-radio-button&gt;
+&lt;p-radio-button label="Express — £9.99"   name="shipping" value="express"&gt;&lt;/p-radio-button&gt;
+&lt;p-radio-button label="Next-day — £19.99" name="shipping" value="nextday"&gt;&lt;/p-radio-button&gt;</pre>
+            </div>
+
+            <h2>Props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>label</code></td><td>string</td><td>—</td><td>Visible label. <strong>Required.</strong></td></tr>
+                <tr><td><code>name</code></td><td>string</td><td>—</td><td>Groups related radio buttons. <strong>Required.</strong></td></tr>
+                <tr><td><code>value</code></td><td>string</td><td>—</td><td>Value submitted with the form.</td></tr>
+                <tr><td><code>checked</code></td><td>boolean</td><td><code>false</code></td><td>Whether this option is selected.</td></tr>
+                <tr><td><code>help-text</code></td><td>string</td><td>—</td><td>Descriptive text below the radio button.</td></tr>
+                <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td>Prevents interaction.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ CARD ═══ -->
+        <section class="page" id="page-card">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Structure</div>
+            <h1>Card</h1>
+            <p class="subtitle">Cards group related content and actions, making pages easier to scan and navigate.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+            <div class="example-block">
+              <div class="example-label">Basic card</div>
+              <div class="example-preview" style="flex-direction:column;width:100%;">
+                <div class="p-card" style="max-width:480px;">
+                  <div class="p-card-header">Online store dashboard</div>
+                  <div class="p-card-body">View a summary of your online store's performance.</div>
+                </div>
+              </div>
+              <pre class="example-code">&lt;p-card title="Online store dashboard" sectioned&gt;
+  &lt;p&gt;View a summary of your online store's performance.&lt;/p&gt;
+&lt;/p-card&gt;</pre>
+            </div>
+
+            <h2>Props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>title</code></td><td>string</td><td>—</td><td>Card heading.</td></tr>
+                <tr><td><code>sectioned</code></td><td>boolean</td><td><code>false</code></td><td>Automatically wraps content in a section.</td></tr>
+                <tr><td><code>subdued</code></td><td>boolean</td><td><code>false</code></td><td>Applies a subdued background style.</td></tr>
+                <tr><td><code>primary-action-content</code></td><td>string</td><td>—</td><td>Label for the header action.</td></tr>
+                <tr><td><code>primary-action-url</code></td><td>string</td><td>—</td><td>URL for the header action.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ PAGE ═══ -->
+        <section class="page" id="page-page-component">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Structure</div>
+            <h1>Page</h1>
+            <p class="subtitle">The page component builds the outer wrapper of a page, including the title, back navigation, and action buttons.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+            <div class="example-block">
+              <div class="example-label">Page with primary action</div>
+              <pre class="example-code">&lt;p-page
+  title="Products"
+  back-action-content="Home"
+  back-action-url="/"
+&gt;
+  &lt;p-button slot="primary-action" variant="primary" url="/products/new"&gt;
+    Add product
+  &lt;/p-button&gt;
+
+  &lt;p-card sectioned&gt;
+    &lt;p&gt;Your product list will appear here.&lt;/p&gt;
+  &lt;/p-card&gt;
+&lt;/p-page&gt;</pre>
+            </div>
+
+            <h2>Props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>title</code></td><td>string</td><td>—</td><td>Page heading. <strong>Required.</strong></td></tr>
+                <tr><td><code>subtitle</code></td><td>string</td><td>—</td><td>Subtitle below the heading.</td></tr>
+                <tr><td><code>back-action-content</code></td><td>string</td><td>—</td><td>Back link label.</td></tr>
+                <tr><td><code>back-action-url</code></td><td>string</td><td>—</td><td>Back link URL.</td></tr>
+                <tr><td><code>full-width</code></td><td>boolean</td><td><code>false</code></td><td>Extends page to full container width.</td></tr>
+                <tr><td><code>narrow-width</code></td><td>boolean</td><td><code>false</code></td><td>Constrains page to a narrower width.</td></tr>
+              </tbody>
+            </table>
+
+            <h2>Slots</h2>
+            <table class="props-table">
+              <thead><tr><th>Slot</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>(default)</code></td><td>Page content.</td></tr>
+                <tr><td><code>primary-action</code></td><td>Primary action button.</td></tr>
+                <tr><td><code>secondary-actions</code></td><td>Secondary action buttons.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ LAYOUT ═══ -->
+        <section class="page" id="page-layout">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Structure</div>
+            <h1>Layout</h1>
+            <p class="subtitle">The layout component creates the main structure of a page using a responsive grid.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+            <div class="example-block">
+              <div class="example-label">Two-column layout</div>
+              <pre class="example-code">&lt;p-layout&gt;
+  &lt;p-layout-section one-half&gt;
+    &lt;p-card title="Revenue" sectioned&gt;
+      £12,300 this month
+    &lt;/p-card&gt;
+  &lt;/p-layout-section&gt;
+  &lt;p-layout-section one-half&gt;
+    &lt;p-card title="Orders" sectioned&gt;
+      342 orders this month
+    &lt;/p-card&gt;
+  &lt;/p-layout-section&gt;
+&lt;/p-layout&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">Annotated layout</div>
+              <pre class="example-code">&lt;p-layout&gt;
+  &lt;p-layout-annotated-section
+    title="Store details"
+    description="Shopify and your customers will use this to contact you."
+  &gt;
+    &lt;p-card sectioned&gt;
+      &lt;p-text-field label="Store name"&gt;&lt;/p-text-field&gt;
+    &lt;/p-card&gt;
+  &lt;/p-layout-annotated-section&gt;
+&lt;/p-layout&gt;</pre>
+            </div>
+
+            <h2>LayoutSection props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>one-half</code></td><td>boolean</td><td><code>false</code></td><td>Section takes half the row width.</td></tr>
+                <tr><td><code>one-third</code></td><td>boolean</td><td><code>false</code></td><td>Section takes a third of the row width.</td></tr>
+                <tr><td><code>secondary</code></td><td>boolean</td><td><code>false</code></td><td>Acts as a sidebar (one-third, right side).</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ MODAL ═══ -->
+        <section class="page" id="page-modal">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Overlays</div>
+            <h1>Modal</h1>
+            <p class="subtitle">Modals interrupt merchants with urgent information, details, or actions. Use them sparingly.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+
+            <div class="example-block">
+              <div class="example-label">Basic modal</div>
+              <pre class="example-code">&lt;p-modal
+  title="Import products"
+  primary-action-content="Import"
+  secondary-action-content="Cancel"
+&gt;
+  Your CSV file has been uploaded and will be imported as products.
+  This can take up to 5 minutes.
+&lt;/p-modal&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">Destructive modal</div>
+              <pre class="example-code">&lt;p-modal
+  title="Delete product?"
+  primary-action-content="Delete"
+  secondary-action-content="Cancel"
+  destructive
+&gt;
+  Are you sure? This action cannot be reversed.
+&lt;/p-modal&gt;</pre>
+            </div>
+
+            <h2>Props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>open</code></td><td>boolean</td><td><code>false</code></td><td>Whether the modal is visible.</td></tr>
+                <tr><td><code>title</code></td><td>string</td><td>—</td><td>Modal heading. <strong>Required.</strong></td></tr>
+                <tr><td><code>primary-action-content</code></td><td>string</td><td>—</td><td>Primary button label.</td></tr>
+                <tr><td><code>secondary-action-content</code></td><td>string</td><td>—</td><td>Secondary button label.</td></tr>
+                <tr><td><code>destructive</code></td><td>boolean</td><td><code>false</code></td><td>Styles primary action as destructive.</td></tr>
+                <tr><td><code>large</code></td><td>boolean</td><td><code>false</code></td><td>Increases modal width.</td></tr>
+              </tbody>
+            </table>
+
+            <h2>Events</h2>
+            <table class="props-table">
+              <thead><tr><th>Event</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>p-close</code></td><td>Fires when the modal is dismissed.</td></tr>
+                <tr><td><code>p-primary-action</code></td><td>Fires when the primary action is clicked.</td></tr>
+                <tr><td><code>p-secondary-action</code></td><td>Fires when the secondary action is clicked.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ POPOVER ═══ -->
+        <section class="page" id="page-popover">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Overlays</div>
+            <h1>Popover</h1>
+            <p class="subtitle">Popovers are small overlays that open on demand, used for contextual actions or information.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+            <div class="example-block">
+              <div class="example-label">With action list</div>
+              <pre class="example-code">&lt;p-popover&gt;
+  &lt;p-button slot="activator" disclosure&gt;More actions&lt;/p-button&gt;
+
+  &lt;p-action-list&gt;
+    &lt;p-action-list-item&gt;Duplicate&lt;/p-action-list-item&gt;
+    &lt;p-action-list-item&gt;Archive&lt;/p-action-list-item&gt;
+    &lt;p-action-list-item destructive&gt;Delete&lt;/p-action-list-item&gt;
+  &lt;/p-action-list&gt;
+&lt;/p-popover&gt;</pre>
+            </div>
+
+            <h2>Props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>active</code></td><td>boolean</td><td><code>false</code></td><td>Whether the popover is visible.</td></tr>
+                <tr><td><code>preferred-alignment</code></td><td>string</td><td><code>"left"</code></td><td>Horizontal alignment: <code>"left"</code>, <code>"right"</code>, <code>"center"</code>.</td></tr>
+                <tr><td><code>preferred-position</code></td><td>string</td><td><code>"below"</code></td><td>Vertical position: <code>"above"</code>, <code>"below"</code>, <code>"mostSpace"</code>.</td></tr>
+                <tr><td><code>full-width</code></td><td>boolean</td><td><code>false</code></td><td>Matches the activator width.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ TOOLTIP ═══ -->
+        <section class="page" id="page-tooltip">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Overlays</div>
+            <h1>Tooltip</h1>
+            <p class="subtitle">Tooltips briefly explain an interface element when merchants hover over or focus on it.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+            <div class="example-block">
+              <div class="example-label">Basic tooltip</div>
+              <pre class="example-code">&lt;p-tooltip content="Print shipping label"&gt;
+  &lt;p-button icon="PrintMinor" variant="plain"&gt;Print&lt;/p-button&gt;
+&lt;/p-tooltip&gt;</pre>
+            </div>
+
+            <div class="example-block">
+              <div class="example-label">On a disabled button</div>
+              <pre class="example-code">&lt;p-tooltip content="Upgrade your plan to export CSV files"&gt;
+  &lt;p-button disabled&gt;Export CSV&lt;/p-button&gt;
+&lt;/p-tooltip&gt;</pre>
+            </div>
+
+            <h2>Props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>content</code></td><td>string</td><td>—</td><td>Tooltip text. <strong>Required.</strong></td></tr>
+                <tr><td><code>preferred-position</code></td><td>string</td><td><code>"above"</code></td><td>Position: <code>"above"</code>, <code>"below"</code>, <code>"mostSpace"</code>.</td></tr>
+                <tr><td><code>active</code></td><td>boolean</td><td><code>false</code></td><td>Forces the tooltip to be always visible.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══ ICON ═══ -->
+        <section class="page" id="page-icon">
+          <div class="doc-header">
+            <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › Images &amp; Icons</div>
+            <h1>Icon</h1>
+            <p class="subtitle">Icons visually communicate core parts of the product and available actions.</p>
+          </div>
+          <div class="content-body">
+            <h2>Examples</h2>
+            <div class="example-block">
+              <div class="example-label">Icon colours</div>
+              <div class="example-preview" style="flex-direction:column;gap:.8rem;">
+                <div style="display:flex;flex-wrap:wrap;gap:1.6rem;">
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:.4rem;font-size:1.2rem;color:#6d7175;">
+                    <span style="font-size:2.4rem;">✅</span><code>success</code>
+                  </div>
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:.4rem;font-size:1.2rem;color:#6d7175;">
+                    <span style="font-size:2.4rem;">🔵</span><code>info</code>
+                  </div>
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:.4rem;font-size:1.2rem;color:#6d7175;">
+                    <span style="font-size:2.4rem;">⚠️</span><code>warning</code>
+                  </div>
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:.4rem;font-size:1.2rem;color:#6d7175;">
+                    <span style="font-size:2.4rem;">🔴</span><code>critical</code>
+                  </div>
+                </div>
+              </div>
+              <pre class="example-code">&lt;p-icon source="CircleTickMajor"  color="success"&gt;&lt;/p-icon&gt;
+&lt;p-icon source="InfoMinor"        color="highlight"&gt;&lt;/p-icon&gt;
+&lt;p-icon source="AlertMinor"       color="warning"&gt;&lt;/p-icon&gt;
+&lt;p-icon source="CircleAlertMajor" color="critical"&gt;&lt;/p-icon&gt;</pre>
+            </div>
+
+            <h2>Props</h2>
+            <table class="props-table">
+              <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>source</code></td><td>string</td><td>—</td><td>Icon name from <code>@shopify/polaris-icons</code>. <strong>Required.</strong></td></tr>
+                <tr><td><code>color</code></td><td>string</td><td><code>"base"</code></td><td>Icon colour token.</td></tr>
+                <tr><td><code>backdrop</code></td><td>boolean</td><td><code>false</code></td><td>Adds a background behind the icon.</td></tr>
+                <tr><td><code>accessibility-label</code></td><td>string</td><td>—</td><td>Screen-reader description.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div><!-- .content -->
+
+      <footer class="site-footer">
+        <p>Shopify Polaris Web Components &bull; MIT Licence &bull; <a href="https://polaris.shopify.com" target="_blank" rel="noopener">polaris.shopify.com</a></p>
+      </footer>
+    </main>
+
+    <script>
+      function showPage(name) {
+        // hide all pages
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        // show target
+        const target = document.getElementById('page-' + name);
+        if (target) target.classList.add('active');
+        // update nav links
+        document.querySelectorAll('.nav-link').forEach(l => {
+          l.classList.toggle('active', l.dataset.page === name);
+        });
+        // scroll to top
+        window.scrollTo(0, 0);
+        // close mobile nav
+        document.getElementById('sidebar').classList.remove('open');
+      }
+
+      // hamburger toggle
+      document.getElementById('hamburger').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('open');
+      });
+    </script>
+  </body>
+</html>
