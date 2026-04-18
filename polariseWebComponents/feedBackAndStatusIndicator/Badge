@@ -1,0 +1,49 @@
+The badge component displays status information or indicates completed actions through compact visual indicators. Use badge to communicate object states, order statuses, or system-generated classifications that help users quickly understand item conditions.
+
+Badges support multiple tones and sizes, with optional icons to reinforce status meaning and improve scannability in lists and tables. For user-created labels, categories, or tags, use chip instead.
+
+Use cases
+Status indicators: Display order status like "Fulfilled," "Pending," or "Cancelled" for quick visibility.
+Inventory states: Show product availability like "In Stock," "Low Stock," or "Out of Stock."
+Processing status: Indicate processing states like "Syncing," "Complete," or "Failed."
+Labels and tags: Categorize items with labels like "Featured," "New," or "Sale."
+Properties
+A badge displayed next to an item in the picker to show status or progress. Use badges to highlight important item attributes or states that affect selection decisions.
+
+content
+string
+required
+The text content of the badge. Keep this short and descriptive (for example, "Draft", "Active", "Incomplete").
+
+progress
+Progress
+The progress indicator for the badge. Use this to show completion status for items that have progress states.
+
+tone
+Tone
+The visual tone indicating status or importance. Choose a tone that matches the badge's meaning.
+
+Slots
+The badge component supports slots for additional content placement within the component. Learn more about using slots.
+
+children
+HTMLElement
+The text label displayed within the badge component, typically a short status indicator or category label.
+
+<s-badge>Fulfilled</s-badge>
+<s-badge tone="info">Draft</s-badge>
+<s-badge tone="success">Active</s-badge>
+<s-badge tone="caution">Open</s-badge>
+<s-badge tone="warning">On hold</s-badge>
+<s-badge tone="critical">Action required</s-badge>
+
+Best practices
+Choose the right size: Use base size in table cells, list items, or when showing multiple badges together. Use large size for standalone badges that need emphasis, like a primary status indicator at the top of a page.
+Keep labels to 1-2 words: Use concise labels like Fulfilled, Partially refunded, or Out of stock. Always use past tense for status labels: Refunded not Refund.
+Use appropriate tones: Apply critical for errors or urgent issues needing action, warning for problems requiring attention, success for positive confirmations, and info for neutral statuses. Use consistent tones for the same status across your app.
+Position in content flow: Place badges adjacent to the items they describe. In list items, position them near the title. In tables, place them in their own column for scannability.
+Know when not to use badges: Badges are static, system-generated indicators. Don't use badges for merchant-created tags or removable items.
+Limitations
+Badge text truncates with an ellipsis when it exceeds the available width. Truncated text isn't accessible via tooltip, so keep labels concise.
+Badge text never wraps to multiple lines. Long labels will truncate rather than expand the badge height.
+Only specific predefined icons from the admin icon set are supported. Custom icons or images can't be used. The icon always appears to the left of the text and can't be repositioned.

@@ -1,0 +1,152 @@
+The color field component allows users to select colors through an integrated color picker or direct text input. Use color field for theme colors, brand colors, or any color selection to provide both visual and text-based color input methods.
+
+Color fields support hex color codes, color preview swatches, and validation to ensure users select or enter valid color values. For a standalone visual color palette interface without text input, use color picker.
+
+Use cases
+Color input: Collect color values through text input with hex color validation.
+Manual entry: Enable manual hex color entry for precise color specification.
+Color codes: Input color codes for themes, branding, or product attributes.
+Keyboard input: Provide keyboard-friendly color input alternative to color pickers.
+Properties
+Configure the following properties on the color field component.
+
+alpha
+boolean
+Default: false
+required
+Whether to enable alpha (transparency) channel selection in the color picker, allowing users to choose semi-transparent colors.
+
+value
+string
+required
+The currently selected color value. Accepts multiple input formats:
+
+Hex: #RGB, #RRGGBB, #RRGGBBAA (3, 6, or 8 digits)
+RGB/RGBA: rgb(255, 0, 0) or rgb(255 0 0) (comma or space-separated)
+HSL/HSLA: hsl(0, 100%, 50%) or hsl(0 100% 50%)
+Returns an empty string if the value is invalid. The change event always emits values in hex format.
+
+autocomplete
+"on" | "off"
+Default: 'on' for everything else
+required
+Controls browser autofill behavior for the field.
+
+Basic values:
+
+on - Enables autofill without specifying content type (default)
+off - Disables autofill for sensitive data or one-time codes
+Specific field values describe the expected data type. You can optionally prefix these with:
+
+section-${string} - Scopes autofill to a specific form section (when multiple forms exist on the same page)
+shipping or billing - Indicates whether the data is for shipping or billing purposes
+Both section and group (for example, section-primary shipping email)
+Providing a specific autofill token helps browsers suggest more relevant saved data.
+
+Learn more about the set of autocomplete values supported in browsers.
+
+defaultValue
+string
+required
+The initial value of the field when it first loads. Unlike placeholder, this is a real value that the user can edit and that gets submitted with the form. Once the user starts typing, their input replaces it. Changing this property after the field has loaded has no effect. To update the field value at any time, use value instead.
+
+details
+string
+required
+Supplementary text displayed below the checkbox to provide additional context, instructions, or help. Use this to explain what checking the box means or provide guidance to users. This text is announced to screen readers.
+
+error
+string
+required
+An error message displayed below the checkbox to indicate validation problems. When set, the checkbox is styled with error indicators and the message is announced to screen readers.
+
+label
+string
+required
+The text displayed as the field label, which identifies the purpose of the field to users. This label is associated with the field for accessibility and helps users understand what information to provide.
+
+labelAccessibilityVisibility
+"visible" | "exclusive"
+Default: 'visible'
+required
+Controls whether the label is visible to all users or only to screen readers.
+
+visible: The label is shown to everyone (default).
+exclusive: The label is visually hidden but still announced by screen readers.
+Use exclusive when the surrounding context makes the label redundant visually, but screen reader users still need it for clarity.
+
+placeholder
+string
+required
+The placeholder text displayed in the field when it's empty, providing a hint about the expected input format or value.
+
+readOnly
+boolean
+Default: false
+required
+Whether the field is read-only and can't be edited. Read-only fields remain focusable and their content is announced by screen readers.
+
+required
+boolean
+Default: false
+required
+Whether the field requires a value before form submission. Displays a visual indicator and adds semantic meaning, but doesn't automatically validate or show errors. Use the error property to display validation messages.
+
+disabled
+boolean
+Default: false
+required
+Whether the field is disabled, preventing any user interaction.
+
+id
+string
+required
+A unique identifier for the element. Use this to reference the element in JavaScript, link labels to form controls, or target specific elements for styling or scripting.
+
+name
+string
+required
+The name attribute for the field, used to identify the field's value when the form is submitted. Must be unique within the nearest containing form.
+
+Events
+The color field component provides event callbacks for handling user interactions. Learn more about handling events.
+
+blur
+CallbackEventListener<'input'>
+required
+A callback fired when the color field loses focus.
+
+Learn more about the blur event.
+
+change
+CallbackEventListener<'input'>
+required
+A callback fired when the color field value changes.
+
+Learn more about the change event.
+
+focus
+CallbackEventListener<'input'>
+required
+A callback fired when the color field receives focus.
+
+Learn more about the focus event.
+
+input
+CallbackEventListener<'input'>
+required
+A callback fired when the user inputs data into the color field.
+
+Learn more about the input event.
+
+<s-color-field
+label="Brand color"
+value="#FF0000"
+
+> </s-color-field>
+
+Best practices
+Label by specific purpose: Use labels that describe exactly what the color affects (Button background color, Heading text color, or Border accent color rather than generic Color).
+Pre-populate when editing: Always show the current color value when editing existing settings so merchants understand what they're changing from.
+Limitations
+The component always outputs values in hex format. While it accepts multiple input formats (hex, RGB, HSL), the change event emits values in hex: 6-digit (#RRGGBB) or 8-digit with alpha (#RRGGBBAA).

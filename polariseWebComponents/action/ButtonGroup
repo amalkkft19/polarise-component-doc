@@ -1,0 +1,56 @@
+The button group component displays multiple related buttons in a structured layout. Use button group to organize action buttons together, creating clear visual hierarchies and helping users understand available options.
+
+Button groups support various layouts including segmented appearances for tightly related options like view switching or filter controls. For individual actions, use button.
+
+Use cases
+Action groups: Group related buttons together with consistent spacing and alignment.
+Primary and secondary: Combine primary and secondary actions in organized groups.
+Responsive layouts: Create button groups that adapt to different screen sizes.
+Horizontal arrangement: Arrange multiple buttons horizontally with proper spacing.
+Properties
+Configure the following properties on the button group component.
+
+gap
+"base" | "none"
+Default: 'base'
+required
+The spacing between buttons in the group.
+
+base: Standard spacing that provides clear visual separation between buttons.
+none: No spacing, creating a connected button group.
+accessibilityLabel
+string
+required
+A label that describes the purpose or content of the component for assistive technologies like screen readers. Use this to provide additional context when the visible content alone doesn't clearly convey the component's purpose.
+
+Slots
+The button group component supports slots for additional content placement within the component. Learn more about using slots.
+
+children
+HTMLElement
+The buttons displayed within the button group component, which are arranged together as a cohesive set of related actions.
+
+primary-action
+HTMLElement
+The main action for this group, displayed with high visual emphasis. Accepts a single button with variant="primary".
+
+Use this for the primary action you want users to take. This can't be used when gap="none".
+
+secondary-actions
+HTMLElement
+Supporting actions displayed with less emphasis than the primary action. Accepts one or more button components with variant="secondary" or variant="auto".
+
+Use these for alternative or less critical actions.
+
+HTML
+<s-button-group>
+<s-button slot="primary-action">Save</s-button>
+<s-button slot="secondary-actions">Cancel</s-button>
+</s-button-group>
+
+Best practices
+Group related actions: Organize related calls to action together to create clear action hierarchies and help merchants understand available options.
+Maintain visual hierarchy: Use primary variants for main actions and secondary or tertiary variants for supporting actions to guide merchant attention.
+Limit action count: Avoid including too many buttons, which can overwhelm merchants and create decision paralysis.
+Use segmented appearance for toggles: Apply the segmented appearance for tightly related options like view switching or filter controls.
+Separate destructive actions: Position destructive actions appropriately and use critical tone to prevent accidental activation.

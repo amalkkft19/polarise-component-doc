@@ -1,0 +1,102 @@
+The text component displays inline text with specific visual styles or tones. Use text to emphasize or differentiate words or phrases within paragraphs or other block-level components, applying weight, color, or semantic styling.
+
+Text supports multiple visual variants, alignment options, and line clamping for flexible inline typography control. For block-level text content, use paragraph.
+
+Use cases
+Labels and descriptions: Display descriptive text for form fields or sections.
+Instructions: Provide usage instructions or help text for complex features.
+Status messages: Show status messages, confirmations, or informational text.
+Content display: Present product descriptions, order notes, or customer information.
+Properties
+Configure the following properties on the text component.
+
+fontVariantNumeric
+"auto" | "normal" | "tabular-nums"
+Default: 'auto'
+required
+The rendering style for numbers in the font.
+
+auto: Inherits the setting from the parent element.
+normal: Uses the font's default numeric glyphs.
+tabular-nums: Uses fixed-width numeric glyphs, ensuring numbers align vertically in tables or lists.
+Learn more about the font-variant-numeric property.
+
+color
+"base" | "subdued"
+Default: 'base'
+required
+The color emphasis level that controls visual intensity.
+
+base: Primary color for body text, standard UI elements, and general content with good readability.
+subdued: Deemphasized color for secondary text, supporting labels, and less critical interface elements.
+tone
+"info" | "success" | "warning" | "critical" | "auto" | "neutral" | "caution"
+Default: 'auto'
+required
+The semantic tone that's applied to the text, which changes its color to convey meaning.
+
+info: Informational content or helpful tips (blue).
+success: Positive outcomes or successful states (green).
+warning: Important warnings about potential issues (orange).
+critical: Urgent problems or destructive actions (red).
+auto: Automatically determined based on context.
+neutral: General information without specific intent (gray).
+caution: Advisory notices that need attention (yellow).
+type
+"strong" | "generic" | "address" | "redundant"
+Default: 'generic'
+required
+The semantic type and styling treatment for the text content.
+
+strong: Emphasizes the text with strong importance, typically displayed in bold.
+generic: Standard text with no special semantic meaning or styling.
+address: Marks the text as contact information, such as a physical or email address.
+redundant: Indicates the text is redundant or duplicated information for screen reader context.
+dir
+"" | "auto" | "ltr" | "rtl"
+Default: ''
+required
+Indicates the directionality of the element’s text.
+
+"": The direction is inherited from parent elements (equivalent to not setting the attribute).
+auto: The user agent determines the direction based on the content.
+ltr: The languages written from left to right (such as English).
+rtl: The languages written from right to left (such as Arabic).
+Learn more about the dir attribute.
+
+accessibilityVisibility
+"visible" | "hidden" | "exclusive"
+Default: 'visible'
+required
+The visibility mode of the element for both visual and assistive technology users.
+
+visible: The element is visible to all users (both sighted users and screen readers).
+hidden: The element is visually visible but hidden from screen readers. Use this for decorative elements that don't provide meaningful information.
+exclusive: The element is visually hidden but announced by screen readers. Use this for screen-reader-only content like skip links or additional context.
+interestFor
+string
+required
+The ID of the component to show when users hover over or focus on this component. Use this to connect interactive components to popovers or tooltips that provide additional context or information.
+
+Slots
+The text component supports slots for additional content placement within the component. Learn more about using slots.
+
+children
+HTMLElement
+The text content displayed within the text component, which applies semantic meaning and styling appropriate to the specified text type.
+
+<s-stack gap="small">
+  <s-text tone="success">Order fulfilled</s-text>
+  <s-text tone="critical">Payment failed</s-text>
+  <s-text tone="warning">Low inventory</s-text>
+</s-stack>
+
+Best practices
+Apply semantic types to improve meaning: Use strong for key words or phrases that need emphasis, address for contact information like physical or email addresses, and redundant for screen reader context when content is visually duplicated. Semantic types help screen readers convey the correct meaning to merchants.
+Emphasize sparingly and strategically: Use strong to emphasize key words or numbers within sentences, not entire sentences. Too much emphasis dilutes its effectiveness and makes content harder to scan.
+Choose appropriate tones for status: Apply tones like critical, success, or caution to communicate status inline. Tones draw attention to important information but work best when paired with clear language, not used alone.
+Consider contrast for subdued text: Subdued text works well for timestamps and metadata, but avoid using it for critical information that merchants must read.
+Limitations
+Text renders inline by default and flows with surrounding content. For block-level text with spacing, use the paragraph component or wrap in layout components.
+The component doesn't include text truncation or ellipsis. Long text will wrap or overflow depending on the container. Use other components like heading with line clamping if truncation is needed.
+Tone colors are optimized for light backgrounds. Using tones on dark or colored backgrounds might not meet accessibility contrast requirements.

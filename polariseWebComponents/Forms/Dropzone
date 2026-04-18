@@ -1,0 +1,125 @@
+The drop zone component lets users upload files through drag-and-drop or by clicking to browse. Use for file uploads such as images, documents, or CSV imports.
+
+The component provides visual feedback during drag operations and supports file type validation through the accept property. Rejected files trigger the droprejected event for custom error handling.
+
+Use cases
+File uploads: Enable drag-and-drop file uploading for product images, documents, or media assets.
+Bulk imports: Allow merchants to upload CSV or spreadsheet files for bulk data imports.
+Media management: Provide an intuitive interface for uploading and managing media files with type validation.
+Document collection: Collect documents like invoices, certificates, or compliance files with file type restrictions.
+Properties
+Configure the following properties on the drop zone component.
+
+accept
+string
+Default: ''
+required
+A string representing the types of files that are accepted by the drop zone. This string is a comma-separated list of unique file type specifiers which can be one of the following:
+
+A file extension starting with a period (".") character (e.g. .jpg, .pdf, .doc)
+A valid MIME type string with no extensions
+If omitted, all file types are accepted.
+
+accessibilityLabel
+string
+required
+A label that describes the purpose or contents of the item. When set, it will be announced to buyers using assistive technologies and will provide them with more context.
+
+disabled
+boolean
+Default: false
+required
+Whether the field is disabled, preventing any user interaction.
+
+error
+string
+required
+An error message displayed below the checkbox to indicate validation problems. When set, the checkbox is styled with error indicators and the message is announced to screen readers.
+
+label
+string
+required
+The text displayed as the field label, which identifies the purpose of the field to users. This label is associated with the field for accessibility and helps users understand what information to provide.
+
+labelAccessibilityVisibility
+"visible" | "exclusive"
+Default: 'visible'
+required
+Controls whether the label is visible to all users or only to screen readers.
+
+visible: The label is shown to everyone (default).
+exclusive: The label is visually hidden but still announced by screen readers.
+Use exclusive when the surrounding context makes the label redundant visually, but screen reader users still need it for clarity.
+
+multiple
+boolean
+Default: false
+required
+Whether multiple files can be selected or dropped at once.
+
+name
+string
+required
+The name attribute for the field, used to identify the field's value when the form is submitted. Must be unique within the nearest containing form.
+
+required
+boolean
+Default: false
+required
+Whether the field requires a value before form submission. Displays a visual indicator and adds semantic meaning, but doesn't automatically validate or show errors. Use the error property to display validation messages.
+
+value
+string
+Default: ''
+required
+This sets the input value for a file type, which cannot be set programatically, so it can only be reset.
+
+files
+File[]
+Default: []
+required
+An array of File objects representing the files currently selected by the user.
+
+This property is read-only and cannot be directly modified. To clear the selected files, set the value prop to an empty string or null.
+
+Events
+The drop zone component provides event callbacks for handling user interactions. Learn more about handling events.
+
+change
+CallbackEventListener<typeof tagName>
+required
+A callback fired when the drop zone value changes.
+
+Learn more about the change event.
+
+droprejected
+CallbackEventListener<typeof tagName>
+required
+A callback fired when a dropped file is rejected due to file type or size restrictions.
+
+input
+CallbackEventListener<typeof tagName>
+required
+A callback fired when the user inputs data into the drop zone.
+
+Learn more about the input event.
+
+<s-drop-zone
+label="Upload"
+accessibilityLabel="Upload image of type jpg, png, or gif"
+accept=".jpg,.png,.gif"
+multiple
+onInput="console.log('onInput', event.currentTarget?.value)"
+onChange="console.log('onChange', event.currentTarget?.value)"
+onDropRejected="console.log('onDropRejected', event.currentTarget?.value)"
+
+> </s-drop-zone>
+
+Best practices
+Set clear file type and size restrictions using the accept property.
+Use the droprejected event to display meaningful error messages when uploads fail validation.
+Consider using disabled to prevent uploads during processing.
+Limitations
+File size validation must be handled in your event handler; the component only validates file types.
+The change event provides the file list but does not automatically upload files.
+Multiple file selection requires the multiple attribute to be set.

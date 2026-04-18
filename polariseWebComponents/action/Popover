@@ -1,0 +1,135 @@
+The popover component displays contextual content in an overlay triggered by a button using the commandFor
+attribute. Use for secondary actions, settings, or information that doesn't require a full modal.
+
+For interactions that need more space or user focus, such as confirmations or complex forms, use modal instead.
+
+Use cases
+Contextual menus: Display additional options or actions in an overlay triggered by a button.
+Filter controls: Present filter options in a popover to save screen space while keeping controls accessible.
+Extended help: Show detailed help content or explanations in a popover triggered by an info button.
+Quick actions: Provide quick action panels that appear on demand without navigating away from the current view.
+Properties
+Configure the following properties on the popover component.
+
+blockSize
+SizeUnitsOrAuto
+Default: 'auto'
+required
+The vertical size of the element in standard layouts (height in left-to-right or right-to-left writing modes).
+
+Block size adjusts based on the writing direction: in horizontal layouts, it controls the height; in vertical layouts, it controls the width. This ensures consistent behavior across different text directions.
+
+Learn more about the block-size property.
+
+SizeUnits: Specific size values in pixels, percentages, or zero for precise control.
+auto: Automatically sizes based on content and layout constraints.
+minBlockSize
+SizeUnits
+Default: '0'
+required
+The minimum vertical size of the element in standard layouts (min-height in left-to-right or right-to-left writing modes).
+
+Prevents the element from becoming smaller than this size along the block axis.
+
+Learn more about the min-block-size property.
+
+maxBlockSize
+SizeUnitsOrNone
+Default: 'none'
+required
+The maximum vertical size of the element in standard layouts (max-height in left-to-right or right-to-left writing modes).
+
+Prevents the element from becoming larger than this size along the block axis.
+
+Learn more about the max-block-size property.
+
+inlineSize
+SizeUnitsOrAuto
+Default: 'auto'
+required
+The horizontal size of the element in standard layouts (width in left-to-right or right-to-left writing modes).
+
+Inline size adjusts based on the writing direction: in horizontal layouts, it controls the width; in vertical layouts, it controls the height. This ensures consistent behavior across different text directions.
+
+Learn more about the inline-size property.
+
+SizeUnits: Specific size values in pixels, percentages, or zero for precise control.
+auto: Automatically sizes based on content and layout constraints.
+minInlineSize
+SizeUnits
+Default: '0'
+required
+The minimum horizontal size of the element in standard layouts (min-width in left-to-right or right-to-left writing modes).
+
+Prevents the element from becoming smaller than this size along the inline axis.
+
+Learn more about the min-inline-size property.
+
+maxInlineSize
+SizeUnitsOrNone
+Default: 'none'
+required
+The maximum horizontal size of the element in standard layouts (max-width in left-to-right or right-to-left writing modes).
+
+Prevents the element from becoming larger than this size along the inline axis.
+
+Learn more about the max-inline-size property.
+
+Events
+The popover component provides event callbacks for handling user interactions. Learn more about handling events.
+
+afterhide
+CallbackEventListener<TTagName> | null
+required
+A callback fired after the popover is hidden.
+
+aftershow
+CallbackEventListener<TTagName> | null
+required
+A callback fired after the popover is shown.
+
+aftertoggle
+CallbackEventListener<TTagName> | null
+required
+A callback fired after the popover is toggled.
+
+hide
+CallbackEventListener<TTagName> | null
+required
+A callback fired when the popover is hidden.
+
+show
+CallbackEventListener<TTagName> | null
+required
+A callback fired when the popover is shown.
+
+toggle
+CallbackEventListener<TTagName> | null
+required
+A callback fired when the popover is toggled.
+
+Slots
+The popover component supports slots for additional content placement within the component. Learn more about using slots.
+
+children
+HTMLElement
+The content displayed within the popover component, which appears in an overlay positioned relative to its trigger element.
+
+HTML
+<s-button commandFor="product-options-popover">Product options</s-button>
+
+<s-popover id="product-options-popover">
+  <s-stack direction="block">
+    <s-button variant="tertiary">Import</s-button>
+    <s-button variant="tertiary">Export</s-button>
+  </s-stack>
+</s-popover>
+
+Best practices
+Use for secondary or less important information and actions since they're hidden until triggered.
+Contain actions that share a relationship to each other.
+Be triggered by a clearly labeled default or tertiary button.
+Limitations
+Popovers can only be opened by user interaction, not programmatically on page load.
+The popover position is determined by the trigger button and cannot be manually overridden.
+Content within the popover does not scroll automatically; use box or section for internal scrolling if needed.

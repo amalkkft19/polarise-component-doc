@@ -1,0 +1,103 @@
+The link component makes text interactive, allowing users to navigate to other pages or perform specific actions. Use link for navigation, external references, or triggering actions while maintaining standard link semantics and accessibility.
+
+Links support standard URLs, custom protocols, navigation within Shopify admin pages, and can open in new windows for external destinations. For prominent actions or form submissions, use button instead.
+
+Use cases
+External resources: Link to external documentation, help articles, or related tools.
+Admin navigation: Navigate to other Shopify admin pages or resource details.
+App pages: Link between different pages or sections within your app.
+Help and support: Provide access to support resources or additional information.
+Properties
+Configure the following properties on the link component.
+
+tone
+"critical" | "auto" | "neutral"
+Default: 'auto'
+required
+The semantic meaning and color treatment of the component.
+
+critical: Urgent problems or destructive actions.
+auto: Automatically determined based on context.
+neutral: General information without specific intent.
+accessibilityLabel
+string
+required
+A label that describes the purpose or content of the component for assistive technologies like screen readers. Use this to provide additional context when the visible content alone doesn't clearly convey the component's purpose.
+
+href
+string
+required
+The URL to navigate to when clicked. The click event fires first, then navigation occurs. If commandFor is also set, the command executes instead of navigation.
+
+target
+"auto" | AnyString | "\_blank" | "\_self" | "\_parent" | "\_top"
+Default: 'auto'
+required
+The browsing context where the linked URL should be displayed.
+
+auto: The target is automatically determined based on the origin of the URL.
+\_blank: Opens the URL in a new window or tab.
+\_self: Opens the URL in the same browsing context as the current one.
+\_parent: Opens the URL in the parent browsing context of the current one. If there is no parent, behaves as \_self.
+\_top: Opens the URL in the topmost browsing context (the highest ancestor of the current one). If there is no ancestor, behaves as \_self.
+download
+string
+required
+Prompts the browser to download the linked URL rather than navigate to it. When set, the value specifies the suggested filename for the downloaded file.
+
+The filename suggestion is only respected for same-origin URLs, blob:, and data: schemes. Cross-origin URLs can still trigger downloads, but browsers might ignore the suggested filename.
+
+Learn more about the download attribute.
+
+lang
+string
+required
+The language of the text content. Use this when the text is in a different language than the rest of the page, allowing assistive technologies such as screen readers to invoke the correct pronunciation. The value should be a valid language subtag from the IANA language subtag registry.
+
+command
+'--auto' | '--show' | '--hide' | '--toggle'
+Default: '--auto'
+required
+The action that command should take when this component is activated.
+
+--auto: A default action for the target component.
+--show: Shows the target component.
+--hide: Hides the target component.
+--toggle: Toggles the visibility of the target component.
+commandFor
+string
+required
+The component that commandFor should act on when this component is activated.
+
+interestFor
+string
+required
+The ID of the component to show when users hover over or focus on this component. Use this to connect interactive components to popovers or tooltips that provide additional context or information.
+
+Events
+The link component provides event callbacks for handling user interactions. Learn more about handling events.
+
+click
+CallbackEventListener<typeof tagName> | null
+required
+A callback fired when the link is clicked.
+
+Learn more about the click event.
+
+Slots
+The link component supports slots for additional content placement within the component. Learn more about using slots.
+
+children
+HTMLElement
+The text or elements displayed within the link component, which navigates users to a different location when activated.
+
+HTML
+<s-link href="#beep">fulfilling orders</s-link>
+
+Best practices
+Open external links in new tabs: Use target="\_blank" only for external URLs (like help documentation or partner sites). Keep internal admin links in the same tab to maintain workflow context.
+Limitations
+Links within extensions have limited control over navigation behavior in the Shopify admin. Some admin navigation patterns might override link behavior for consistency.
+Links with target="\_blank" automatically get rel="noopener noreferrer" for security, but external URLs are still subject to browser security policies. Some browsers might block external navigation from extensions or show security warnings.
+Links don't have a built-in loading or disabled state. If clicking a link triggers a slow navigation or async operation, you must implement loading feedback yourself.
+The download attribute for forcing file downloads has inconsistent browser support. It works reliably for same-origin files but might be ignored for cross-origin resources. Safari on iOS doesn't support the download attribute at all.

@@ -1,0 +1,99 @@
+The clickable chip component displays interactive labels or categories that users can click or remove. Use clickable chip to show filter tags, selected options, or merchant-created labels that users need to interact with or dismiss.
+
+Clickable chips support multiple visual variants, optional icons, and can function as both clickable buttons and removable tags for flexible interaction patterns. For non-interactive labels, use chip.
+
+Use cases
+Removable tags: Display removable tags or labels that perform actions when clicked.
+Interactive filters: Show active filters as clickable chips that can be modified or removed.
+Action chips: Create chips that trigger actions or open dialogs when clicked.
+Selection management: Display selected items as chips with click handlers for modification.
+Properties
+Configure the following properties on the clickable chip component.
+
+color
+ColorKeyword
+Default: 'base'
+required
+The color emphasis level that controls visual intensity.
+
+accessibilityLabel
+string
+required
+A label that describes the purpose or content of the component for assistive technologies like screen readers. Use this to provide additional context when the visible content alone doesn't clearly convey the component's purpose.
+
+removable
+boolean
+Default: false
+required
+Whether the chip displays a remove button for dismissal. When clicked, the remove callback fires.
+
+hidden
+boolean
+Default: false
+required
+Whether the chip is hidden from view. When using controlled component pattern with removable chips, update this property when the remove event fires. For non-removable chips, manually toggle this property to show or hide the chip.
+
+disabled
+boolean
+Default: false
+required
+Whether the chip is disabled, preventing any user interaction.
+
+href
+string
+required
+The URL to navigate to when clicked. The click event fires first, then navigation occurs. If commandFor is also set, the command executes instead of navigation.
+
+command
+'--auto' | '--show' | '--hide' | '--toggle'
+Default: '--auto'
+required
+The action that command should take when this component is activated.
+
+--auto: A default action for the target component.
+--show: Shows the target component.
+--hide: Hides the target component.
+--toggle: Toggles the visibility of the target component.
+commandFor
+string
+required
+The component that commandFor should act on when this component is activated.
+
+interestFor
+string
+required
+The ID of the component to show when users hover over or focus on this component. Use this to connect interactive components to popovers or tooltips that provide additional context or information.
+
+Events
+The clickable chip component provides event callbacks for handling user interactions. Learn more about handling events.
+
+afterhide
+CallbackEventListener<typeof tagName> | null
+required
+A callback fired after the chip is hidden.
+
+click
+CallbackEventListener<typeof tagName> | null
+required
+A callback fired when the chip is clicked.
+
+Learn more about the click event.
+
+remove
+CallbackEventListener<typeof tagName> | null
+required
+A callback fired when the chip is removed.
+
+Slots
+The clickable chip component supports slots for additional content placement within the component. Learn more about using slots.
+
+children
+HTMLElement
+The text label displayed within the chip, which represents an interactive filter, tag, or selectable item.
+
+graphic
+HTMLElement
+An optional icon to display at the start of the chip. Accepts only icon components.
+
+HTML
+<s-clickable-chip>Clickable chip</s-clickable-chip>

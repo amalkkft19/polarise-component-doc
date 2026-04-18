@@ -1,0 +1,99 @@
+The page component provides a styled page layout within your app, including breadcrumbs, page actions, and content areas with automatic spacing.
+
+Use page when you need a complete page layout with Polaris styling. For apps that need to set the Shopify admin's native title bar (title, breadcrumbs, actions) without a styled page layout, use the title bar App Bridge component instead.
+
+Use cases
+App layouts: Use as the main container for your app's primary interface with automatic spacing and preset layouts.
+Resource management: Create resource management pages with headings, primary actions, and secondary navigation.
+Settings pages: Build settings or configuration pages with structured content and aside panels.
+Detail views: Display resource detail pages with breadcrumb navigation and contextual actions.
+Properties
+Use as the outer wrapper of a page.
+
+inlineSize
+"small" | "base" | "large"
+Default: 'base'
+required
+The inline size of the page
+
+base corresponds to a set default inline size
+large full width with whitespace
+heading
+string
+required
+The main page heading
+
+Slots
+The page component supports slots for additional content placement within the component. Learn more about using slots.
+
+aside
+HTMLElement
+The content to display in the aside section of the page.
+
+This slot is only rendered when inlineSize is "base".
+
+breadcrumb-actions
+HTMLElement
+The navigation back actions for the page.
+
+Only accepts link components.
+
+children
+HTMLElement
+The main page content displayed within the page component, which serves as the primary container for the page's information and interface elements.
+
+primary-action
+HTMLElement
+The primary action for the page.
+
+Only accepts a single button component with a variant of primary.
+
+secondary-actions
+HTMLElement
+The secondary actions for the page.
+
+Only accepts button group and button components with a variant of secondary or auto.
+
+<s-page heading="Edit product" inlineSize="base">
+  <s-link slot="breadcrumb-actions" href="/products">Products</s-link>
+
+<s-button slot="primary-action" variant="primary" id="save-btn" disabled>Save</s-button>
+<s-button slot="secondary-actions">Preview</s-button>
+<s-button slot="secondary-actions" tone="critical">Delete</s-button>
+
+  <s-section>
+    <s-stack direction="block" gap="base">
+      <s-text-field label="Title" name="title" value="Blue T-Shirt" required></s-text-field>
+      <s-text-area label="Description" name="description" rows="4"></s-text-area>
+      <s-number-field label="Price" name="price"></s-number-field>
+    </s-stack>
+  </s-section>
+
+  <s-box slot="aside">
+    <s-section>
+      <s-stack direction="block" gap="base">
+        <s-heading>Status</s-heading>
+        <s-select label="Status" name="status">
+          <option value="draft">Draft</option>
+          <option value="active">Active</option>
+        </s-select>
+      </s-stack>
+    </s-section>
+  </s-box>
+</s-page>
+
+<script>
+  const form = document.querySelector('s-section');
+  const saveBtn = document.getElementById('save-btn');
+
+  form.addEventListener('input', () => {
+    saveBtn.disabled = false;
+  });
+</script>
+
+Best practices
+Always provide a title that describes the current page.
+Include breadcrumbs when the page is part of a flow.
+Include page actions in the header only if they are relevant to the entire page.
+Include no more than one primary action and 3 secondary actions per page.
+Don't include any actions at the bottom of the page.

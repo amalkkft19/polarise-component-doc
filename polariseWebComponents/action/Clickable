@@ -1,0 +1,317 @@
+The clickable component wraps content to make it interactive and clickable. Use it when you need more styling control than button or link provide, such as custom backgrounds, padding, or borders around your clickable content.
+
+Clickable supports button, link, and submit modes with built-in accessibility properties for keyboard navigation and screen reader support.
+
+Use cases
+Custom interactive areas: Create clickable areas without button styling for cards or panels.
+Interactive content: Make text, images, or complex layouts clickable while preserving appearance.
+Subtle interactions: Implement interactions where button styling would be too prominent.
+Custom navigation: Build custom navigation elements with click handlers.
+Properties
+Configure the following properties on the clickable component.
+
+disabled
+boolean
+required
+Whether the component is disabled, preventing clicks and focus. When disabled, the click event won't fire and click events from child elements stop propagating immediately. Interactive child elements can still receive focus and be interacted with. This doesn't apply visual styling by default. You shouldapply disabled styling as needed.
+
+loading
+boolean
+required
+Whether the component is in a loading state, which indicates to assistive technology that an action is in progress and prevents interaction.
+
+target
+"auto" | AnyString | "\_blank" | "\_self" | "\_parent" | "\_top"
+Default: 'auto'
+required
+The browsing context where the linked URL should be displayed.
+
+auto: The target is automatically determined based on the origin of the URL.
+\_blank: Opens the URL in a new window or tab.
+\_self: Opens the URL in the same browsing context as the current one.
+\_parent: Opens the URL in the parent browsing context of the current one. If there is no parent, behaves as \_self.
+\_top: Opens the URL in the topmost browsing context (the highest ancestor of the current one). If there is no ancestor, behaves as \_self.
+href
+string
+required
+The URL to navigate to when clicked. The click event fires first, then navigation occurs. If commandFor is also set, the command executes instead of navigation.
+
+download
+string
+required
+Prompts the browser to download the linked URL rather than navigate to it. When set, the value specifies the suggested filename for the downloaded file.
+
+The filename suggestion is only respected for same-origin URLs, blob:, and data: schemes. Cross-origin URLs can still trigger downloads, but browsers might ignore the suggested filename.
+
+Learn more about the download attribute.
+
+type
+"button" | "reset" | "submit"
+Default: 'button'
+required
+The behavior of the button component.
+
+button: Used to indicate the component acts as a button, meaning it has no default action.
+reset: Used to indicate the component acts as a reset button, meaning it resets the closest form (returning fields to their default values).
+submit: Used to indicate the component acts as a submit button, meaning it submits the closest form.
+This property is ignored if the component supports href or commandFor/command and one of them is set.
+
+accessibilityRole
+AccessibilityRole
+Default: 'generic'
+required
+The semantic meaning of the component’s content. When set, the role will be used by assistive technologies to help users navigate the page.
+
+background
+BackgroundColorKeyword
+Default: 'transparent'
+required
+The background color of the component.
+
+blockSize
+SizeUnitsOrAuto
+Default: 'auto'
+required
+The vertical size of the element in standard layouts (height in left-to-right or right-to-left writing modes).
+
+Block size adjusts based on the writing direction: in horizontal layouts, it controls the height; in vertical layouts, it controls the width. This ensures consistent behavior across different text directions.
+
+Learn more about block-size.
+
+minBlockSize
+SizeUnits
+Default: '0'
+required
+The minimum height in horizontal writing modes, or minimum width in vertical writing modes. Prevents the element from shrinking below this size.
+
+Learn more about min-block-size.
+
+maxBlockSize
+SizeUnitsOrNone
+Default: 'none'
+required
+The maximum height in horizontal writing modes, or maximum width in vertical writing modes. Prevents the element from growing beyond this size.
+
+Learn more about max-block-size.
+
+inlineSize
+SizeUnitsOrAuto
+Default: 'auto'
+required
+The width in horizontal writing modes, or height in vertical writing modes. Use this for flow-relative sizing that adapts to text direction. Learn more about inline-size.
+
+minInlineSize
+SizeUnits
+Default: '0'
+required
+The minimum width in horizontal writing modes, or minimum height in vertical writing modes. Prevents the element from shrinking below this size.
+
+Learn more about min-inline-size.
+
+maxInlineSize
+SizeUnitsOrNone
+Default: 'none'
+required
+The maximum width in horizontal writing modes, or maximum height in vertical writing modes. Prevents the element from growing beyond this size.
+
+Learn more about max-inline-size.
+
+overflow
+"visible" | "hidden"
+Default: 'visible'
+required
+The overflow behavior of the element.
+
+visible: the content that extends beyond the element’s container is visible.
+hidden: clips the content when it is larger than the element’s container. The element will not be scrollable and the users will not be able to access the clipped content by dragging or using a scroll wheel on a mouse.
+padding
+MaybeResponsive<MaybeAllValuesShorthandProperty<PaddingKeyword>>
+Default: 'none'
+required
+The padding applied to all edges of the component.
+
+Supports 1-to-4-value syntax using flow-relative values:
+
+1 value applies to all sides
+2 values apply to block (top/bottom) and inline (left/right)
+3 values apply to block-start (top), inline (left/right), and block-end (bottom)
+4 values apply to block-start (top), inline-end (right), block-end (bottom), and inline-start (left)
+Examples: base, large none, base large-100 base small
+
+Use auto to inherit padding from the nearest container with removed padding. Also accepts a responsive value string with the supported PaddingKeyword as a query value.
+
+paddingBlock
+MaybeResponsive<"" | MaybeTwoValuesShorthandProperty<PaddingKeyword>>
+Default: '' - meaning no override
+required
+The block-direction padding (top and bottom in horizontal writing modes).
+
+Accepts a single value for both sides or two space-separated values for block-start and block-end.
+
+Example: large none applies large to the top and none to the bottom.
+
+Overrides the block value from padding. Also accepts a responsive value string with the supported PaddingKeyword as a query value.
+
+paddingBlockStart
+MaybeResponsive<"" | PaddingKeyword>
+Default: '' - meaning no override
+required
+The block-start padding (top in horizontal writing modes).
+
+Overrides the block-start value from paddingBlock. Also accepts a responsive value string with the supported PaddingKeyword as a query value.
+
+paddingBlockEnd
+MaybeResponsive<"" | PaddingKeyword>
+Default: '' - meaning no override
+required
+The block-end padding (bottom in horizontal writing modes).
+
+Overrides the block-end value from paddingBlock. Also accepts a responsive value string with the supported PaddingKeyword as a query value.
+
+paddingInline
+MaybeResponsive<"" | MaybeTwoValuesShorthandProperty<PaddingKeyword>>
+Default: '' - meaning no override
+required
+The inline-direction padding (left and right in horizontal writing modes).
+
+Accepts a single value for both sides or two space-separated values for inline-start and inline-end.
+
+Example: large none applies large to the left and none to the right.
+
+Overrides the inline value from padding. Also accepts a responsive value string with the supported PaddingKeyword as a query value.
+
+paddingInlineStart
+MaybeResponsive<"" | PaddingKeyword>
+Default: '' - meaning no override
+required
+The inline-start padding (left in LTR writing modes, right in RTL).
+
+Overrides the inline-start value from paddingInline. Also accepts a responsive value string with the supported PaddingKeyword as a query value.
+
+paddingInlineEnd
+MaybeResponsive<"" | PaddingKeyword>
+Default: '' - meaning no override
+required
+The inline-end padding (right in LTR writing modes, left in RTL).
+
+Overrides the inline-end value from paddingInline. Also accepts a responsive value string with the supported PaddingKeyword as a query value.
+
+border
+BorderShorthand
+Default: 'none' - equivalent to `none base auto`.
+required
+A border applied using shorthand syntax to specify width, color, and style in a single property.
+
+borderWidth
+"" | MaybeAllValuesShorthandProperty<"small" | "small-100" | "base" | "large" | "large-100" | "none">
+Default: '' - meaning no override
+required
+The thickness of the border on all sides. When set, this overrides the width value specified in the border property.
+
+borderStyle
+"" | MaybeAllValuesShorthandProperty<BoxBorderStyles>
+Default: '' - meaning no override
+required
+The visual style of the border on all sides, such as solid, dashed, or dotted. When set, this overrides the style value specified in the border property.
+
+borderColor
+"" | ColorKeyword
+Default: '' - meaning no override
+required
+The color of the border using the design system's color scale. When set, this overrides the color value specified in the border property.
+
+borderRadius
+MaybeAllValuesShorthandProperty<BoxBorderRadii>
+Default: 'none'
+required
+The roundedness of the element's corners using the design system's radius scale.
+
+accessibilityLabel
+string
+required
+A label that describes the purpose or content of the component for assistive technologies like screen readers. Use this to provide additional context when the visible content alone doesn't clearly convey the component's purpose.
+
+accessibilityVisibility
+"visible" | "hidden" | "exclusive"
+Default: 'visible'
+required
+The visibility mode of the element for both visual and assistive technology users.
+
+visible: The element is visible to all users (both sighted users and screen readers).
+hidden: The element is visually visible but hidden from screen readers. Use this for decorative elements that don't provide meaningful information.
+exclusive: The element is visually hidden but announced by screen readers. Use this for screen-reader-only content like skip links or additional context.
+display
+MaybeResponsive<"auto" | "none">
+Default: 'auto'
+required
+The outer display type of the component. The outer type sets a component's participation in flow layout.
+
+auto the component's initial value. The actual value depends on the component and context.
+none hides the component from display and removes it from the accessibility tree, making it invisible to screen readers.
+command
+'--auto' | '--show' | '--hide' | '--toggle'
+Default: '--auto'
+required
+The action that command should take when this component is activated.
+
+--auto: A default action for the target component.
+--show: Shows the target component.
+--hide: Hides the target component.
+--toggle: Toggles the visibility of the target component.
+commandFor
+string
+required
+The component that commandFor should act on when this component is activated.
+
+interestFor
+string
+required
+The ID of the component to show when users hover over or focus on this component. Use this to connect interactive components to popovers or tooltips that provide additional context or information.
+
+Events
+The clickable component provides event callbacks for handling user interactions. Learn more about handling events.
+
+blur
+CallbackEventListener<typeof tagName> | null
+required
+A callback fired when the component loses focus.
+
+Learn more about the blur event.
+
+click
+CallbackEventListener<typeof tagName> | null
+required
+A callback fired when the component is clicked.
+
+Learn more about the click event.
+
+focus
+CallbackEventListener<typeof tagName> | null
+required
+A callback fired when the component receives focus.
+
+Learn more about the focus event.
+
+Slots
+The clickable component supports slots for additional content placement within the component. Learn more about using slots.
+
+children
+HTMLElement
+The content displayed within the clickable component, which makes any content interactive and clickable without the semantic meaning of a button or link.
+
+HTML
+<s-clickable padding="base">Create Store</s-clickable>
+
+<s-clickable
+border="base"
+padding="base"
+background="subdued"
+borderRadius="base"
+
+> View Shipping Settings
+> </s-clickable>
+
+Best practices
+Provide accessibility labels: Always include accessibilityLabel for elements without visible text to ensure screen reader users understand the element's purpose.
+Choose appropriate modes: Use button mode for triggering actions, link mode for navigation, and submit mode for form submissions.
+Indicate disabled state: When disabling clickable elements, provide clear visual feedback and explanatory text about why the element's unavailable.

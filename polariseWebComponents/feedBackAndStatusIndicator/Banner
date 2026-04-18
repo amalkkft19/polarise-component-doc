@@ -1,0 +1,86 @@
+The banner component highlights important information or required actions prominently within the interface. Use banner to communicate statuses, provide feedback, draw attention to critical updates, or guide users toward necessary actions.
+
+Banners support multiple tones to convey urgency levels, optional actions for next steps, and can be positioned contextually within sections or page-wide at the top. For inline status indicators on individual items, use badge.
+
+Use cases
+Important announcements: Communicate critical information about app features or requirements.
+Error messages: Display prominent error messages that require merchant attention.
+Success confirmations: Show success messages for important operations like saves or sync.
+Warnings: Alert merchants to potential issues like missing configuration or deprecated features.
+Properties
+Configure the following properties on the banner component.
+
+heading
+string
+Default: ''
+required
+The heading text displayed at the top of the banner.
+
+tone
+"info" | "success" | "warning" | "critical" | "auto"
+Default: 'auto'
+required
+The semantic meaning and color treatment of the component.
+
+info: Informational content or helpful tips.
+success: Positive outcomes or successful states.
+warning: Important warnings about potential issues.
+critical: Urgent problems or destructive actions.
+auto: Automatically determined based on context.
+hidden
+boolean
+Default: false
+required
+Controls whether the banner is visible or hidden.
+
+When using a controlled component pattern and the banner is dismissible, update this property to true when the dismiss event fires.
+
+You can hide the banner programmatically by setting this to true even if it's not dismissible.
+
+dismissible
+boolean
+Default: false
+required
+Whether the banner displays a close button that allows users to dismiss it.
+
+When the close button is pressed, the dismiss event fires, then hidden is set to true, any animation completes, and the afterhide event fires.
+
+Events
+The banner component provides event callbacks for handling user interactions. Learn more about handling events.
+
+afterhide
+CallbackEventListener<typeof tagName> | null
+required
+A callback fired after the banner is hidden.
+
+dismiss
+CallbackEventListener<typeof tagName> | null
+required
+A callback fired when the banner is dismissed.
+
+Slots
+The banner component supports slots for additional content placement within the banner. Learn more about using slots.
+
+children
+HTMLElement
+The main message content displayed within the banner component, providing important information or guidance to users.
+
+secondary-actions
+HTMLElement
+Action buttons displayed at the bottom of the banner that let users respond to the message. Accepts up to two button components with variant="secondary" or variant="auto".
+
+<s-banner heading="Order archived" tone="info" dismissible>
+  This order was archived on March 7, 2017 at 3:12pm EDT.
+</s-banner>
+
+Best practices
+Focus on single actions: Present one piece of information or required action per banner to maintain clarity and prevent confusion.
+Keep messages concise: Write scannable content that merchants can quickly understand without spending time deciphering meaning or next steps.
+Provide clear actions: Info, warning, and critical banners should include a call to action with specific next steps so merchants know how to proceed.
+Make dismissible when appropriate: Allow merchants to dismiss banners unless immediate action's required. Avoid persistent banners that can't be closed.
+Position contextually: Place banners outside sections for page-wide messages or inside sections for contextual messages relevant to specific content.
+Limitations
+The dismissed state doesn't persist across page loads or sessions. You must implement your own persistence logic using local storage, cookies, or server-side state.
+Multiple banners stack vertically without built-in prioritization or queueing. If you show multiple banners at once, all appear simultaneously. You must implement banner queueing logic yourself to show one at a time.
+Banners can't be fixed or sticky at the top of the viewport. They scroll with page content.
+Banners don't have built-in truncation or "read more" functionality. Very long banner messages will wrap to multiple lines, creating tall banners that dominate the screen.

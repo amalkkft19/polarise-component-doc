@@ -1,0 +1,163 @@
+The text area component captures multi-line text input. Use it to collect descriptions, notes, comments, or other extended text content.
+
+The component supports configurable height, character limits, and validation. For single-line text input, use text field.
+
+Use cases
+Product descriptions: Collect detailed product descriptions or extended content.
+Notes and comments: Capture merchant notes, internal comments, or instructions.
+Configuration text: Input multi-line configuration values like custom code or templates.
+Detailed input: Collect any multi-line textual information from merchants.
+Properties
+Configure the following properties on the text area component.
+
+maxLength
+number
+Default: Infinity
+required
+The maximum number of characters allowed in the field.
+
+minLength
+number
+Default: 0
+required
+The minimum number of characters required in the field.
+
+rows
+number
+Default: 2
+required
+A number of visible text lines.
+
+value
+string
+required
+The current text value in the field as a string. When setting this property programmatically, it updates the field's display value. When reading it, you get the user's current input.
+
+autocomplete
+"on" | "off" | TextAutocompleteField | `section-${string} one-time-code` | "shipping one-time-code" | "billing one-time-code" | `section-${string} shipping one-time-code` | `section-${string} billing one-time-code` | `section-${string} language` | `section-${string} organization` | `section-${string} name` | `section-${string} additional-name` | `section-${string} address-level1` | `section-${string} address-level2` | `section-${string} address-level3` | `section-${string} address-level4` | `section-${string} address-line1` | `section-${string} address-line2` | `section-${string} address-line3` | `section-${string} country-name` | `section-${string} country` | `section-${string} family-name` | `section-${string} given-name` | `section-${string} honorific-prefix` | `section-${string} honorific-suffix` | `section-${string} nickname` | `section-${string} organization-title` | `section-${string} postal-code` | `section-${string} sex` | `section-${string} street-address` | `section-${string} transaction-currency` | `section-${string} username` | `section-${string} cc-additional-name` | `section-${string} cc-family-name` | `section-${string} cc-given-name` | `section-${string} cc-name` | `section-${string} cc-type` | "shipping language" | "shipping organization" | "shipping name" | "shipping additional-name" | "shipping address-level1" | "shipping address-level2" | "shipping address-level3" | "shipping address-level4" | "shipping address-line1" | "shipping address-line2" | "shipping address-line3" | "shipping country-name" | "shipping country" | "shipping family-name" | "shipping given-name" | "shipping honorific-prefix" | "shipping honorific-suffix" | "shipping nickname" | "shipping organization-title" | "shipping postal-code" | "shipping sex" | "shipping street-address" | "shipping transaction-currency" | "shipping username" | "shipping cc-additional-name" | "shipping cc-family-name" | "shipping cc-given-name" | "shipping cc-name" | "shipping cc-type" | "billing language" | "billing organization" | "billing name" | "billing additional-name" | "billing address-level1" | "billing address-level2" | "billing address-level3" | "billing address-level4" | "billing address-line1" | "billing address-line2" | "billing address-line3" | "billing country-name" | "billing country" | "billing family-name" | "billing given-name" | "billing honorific-prefix" | "billing honorific-suffix" | "billing nickname" | "billing organization-title" | "billing postal-code" | "billing sex" | "billing street-address" | "billing transaction-currency" | "billing username" | "billing cc-additional-name" | "billing cc-family-name" | "billing cc-given-name" | "billing cc-name" | "billing cc-type" | `section-${string} shipping language` | `section-${string} shipping organization` | `section-${string} shipping name` | `section-${string} shipping additional-name` | `section-${string} shipping address-level1` | `section-${string} shipping address-level2` | `section-${string} shipping address-level3` | `section-${string} shipping address-level4` | `section-${string} shipping address-line1` | `section-${string} shipping address-line2` | `section-${string} shipping address-line3` | `section-${string} shipping country-name` | `section-${string} shipping country` | `section-${string} shipping family-name` | `section-${string} shipping given-name` | `section-${string} shipping honorific-prefix` | `section-${string} shipping honorific-suffix` | `section-${string} shipping nickname` | `section-${string} shipping organization-title` | `section-${string} shipping postal-code` | `section-${string} shipping sex` | `section-${string} shipping street-address` | `section-${string} shipping transaction-currency` | `section-${string} shipping username` | `section-${string} shipping cc-additional-name` | `section-${string} shipping cc-family-name` | `section-${string} shipping cc-given-name` | `section-${string} shipping cc-name` | `section-${string} shipping cc-type` | `section-${string} billing language` | `section-${string} billing organization` | `section-${string} billing name` | `section-${string} billing additional-name` | `section-${string} billing address-level1` | `section-${string} billing address-level2` | `section-${string} billing address-level3` | `section-${string} billing address-level4` | `section-${string} billing address-line1` | `section-${string} billing address-line2` | `section-${string} billing address-line3` | `section-${string} billing country-name` | `section-${string} billing country` | `section-${string} billing family-name` | `section-${string} billing given-name` | `section-${string} billing honorific-prefix` | `section-${string} billing honorific-suffix` | `section-${string} billing nickname` | `section-${string} billing organization-title` | `section-${string} billing postal-code` | `section-${string} billing sex` | `section-${string} billing street-address` | `section-${string} billing transaction-currency` | `section-${string} billing username` | `section-${string} billing cc-additional-name` | `section-${string} billing cc-family-name` | `section-${string} billing cc-given-name` | `section-${string} billing cc-name` | `section-${string} billing cc-type`
+Default: 'on' for everything else
+required
+Controls browser autofill behavior for the field.
+
+Basic values:
+
+on - Enables autofill without specifying content type (default)
+off - Disables autofill for sensitive data or one-time codes
+Specific field values describe the expected data type. You can optionally prefix these with:
+
+section-${string} - Scopes autofill to a specific form section (when multiple forms exist on the same page)
+shipping or billing - Indicates whether the data is for shipping or billing purposes
+Both section and group (for example, section-primary shipping email)
+Providing a specific autofill token helps browsers suggest more relevant saved data.
+
+Learn more about the set of autocomplete values supported in browsers.
+
+defaultValue
+string
+required
+The initial value of the field when it first loads. Unlike placeholder, this is a real value that the user can edit and that gets submitted with the form. Once the user starts typing, their input replaces it. Changing this property after the field has loaded has no effect. To update the field value at any time, use value instead.
+
+details
+string
+required
+Supplementary text displayed below the checkbox to provide additional context, instructions, or help. Use this to explain what checking the box means or provide guidance to users. This text is announced to screen readers.
+
+error
+string
+required
+An error message displayed below the checkbox to indicate validation problems. When set, the checkbox is styled with error indicators and the message is announced to screen readers.
+
+label
+string
+required
+The text displayed as the field label, which identifies the purpose of the field to users. This label is associated with the field for accessibility and helps users understand what information to provide.
+
+labelAccessibilityVisibility
+"visible" | "exclusive"
+Default: 'visible'
+required
+Controls whether the label is visible to all users or only to screen readers.
+
+visible: The label is shown to everyone (default).
+exclusive: The label is visually hidden but still announced by screen readers.
+Use exclusive when the surrounding context makes the label redundant visually, but screen reader users still need it for clarity.
+
+placeholder
+string
+required
+The placeholder text displayed in the field when it's empty, providing a hint about the expected input format or value.
+
+readOnly
+boolean
+Default: false
+required
+Whether the field is read-only and can't be edited. Read-only fields remain focusable and their content is announced by screen readers.
+
+required
+boolean
+Default: false
+required
+Whether the field requires a value before form submission. Displays a visual indicator and adds semantic meaning, but doesn't automatically validate or show errors. Use the error property to display validation messages.
+
+disabled
+boolean
+Default: false
+required
+Whether the field is disabled, preventing any user interaction.
+
+id
+string
+required
+A unique identifier for the element. Use this to reference the element in JavaScript, link labels to form controls, or target specific elements for styling or scripting.
+
+name
+string
+required
+The name attribute for the field, used to identify the field's value when the form is submitted. Must be unique within the nearest containing form.
+
+Events
+The text area component provides event callbacks for handling user interactions. Learn more about handling events.
+
+blur
+CallbackEventListener<'input'>
+required
+A callback fired when the text area loses focus.
+
+Learn more about the blur event.
+
+change
+CallbackEventListener<'input'>
+required
+A callback fired when the text area value changes.
+
+Learn more about the change event.
+
+focus
+CallbackEventListener<'input'>
+required
+A callback fired when the text area receives focus.
+
+Learn more about the focus event.
+
+input
+CallbackEventListener<'input'>
+required
+A callback fired when the user inputs data into the text area.
+
+Learn more about the input event.
+
+<s-text-area
+label="Shipping address"
+value="1776 Barnes Street, Orlando, FL 32801"
+rows="3"
+
+> </s-text-area>
+
+Best practices
+Set appropriate initial height: The visible row count sets merchants' expectations for how much content to provide. A small textarea suggests brief input, while a larger one indicates more detailed content is expected.
+Set realistic length constraints: Define maximum and minimum character limits that reflect actual requirements. Communicate these limits clearly so merchants understand how much content they need to provide.
+Provide helpful placeholder examples: Show merchants what kind of content and level of detail you expect. Good placeholder text demonstrates format and tone rather than just stating the field's purpose.
+Give real-time feedback on length limits: When enforcing maximum length, show merchants how many characters they have remaining. This helps them craft their content within constraints without exceeding limits.
+Limitations
+The maxLength attribute prevents typing but doesn't reliably prevent pasting longer content. Browsers handle this differently. Always validate length server-side.
+The component only accepts plain text. If you need bold, italics, lists, or other formatting, you must implement a rich text editor or use plain text with Markdown syntax.

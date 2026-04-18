@@ -1,0 +1,55 @@
+The image component embeds images within the interface with control over presentation and loading behavior. Use image to visually illustrate concepts, showcase products, display user content, or support tasks and interactions with visual context.
+
+Images support responsive sizing, alt text for accessibility, aspect ratio control, and loading states for progressive enhancement. For small preview images in lists or tables, use thumbnail. For profile images, use avatar.
+
+Use cases
+Product visuals: Display product images in configuration interfaces or recommendations.
+Branding: Show app logos or brand imagery in action modals.
+Visual guides: Provide visual instructions or examples for complex configurations.
+Marketing content: Display promotional banners or feature announcements.
+Properties
+id
+string
+required
+originalSrc
+string
+required
+altText
+string
+Events
+The image component provides event callbacks for handling user interactions. Learn more about handling events.
+
+error
+OnErrorEventHandler
+required
+A callback fired when the image fails to load.
+
+Learn more about the error event.
+
+load
+CallbackEventListener<typeof tagName> | null
+required
+A callback fired when the image successfully loads.
+
+Learn more about the load event.
+<s-image
+src="https://cdn.shopify.com/static/sample-product/House-Plant1.png"
+srcSet="https://cdn.shopify.com/static/sample-product/House-Plant1.png 400w,
+https://cdn.shopify.com/static/sample-product/House-Plant1.png 800w"
+sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 400px"
+alt="Product detail"
+aspectRatio="16/9"
+objectFit="cover"
+
+> </s-image>
+
+Useful for
+Adding illustrations and photos.
+Best practices
+Use high-resolution, optimized images.
+Use intentionally to add clarity and guide users.
+Content guidelines
+Alt text should be accurate, concise, and descriptive:
+
+Indicate it's an image: "Image of", "Photo of".
+Focus on description: "Image of a woman with curly brown hair smiling".

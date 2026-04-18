@@ -1,0 +1,68 @@
+The section component groups related content into clearly-defined thematic areas with consistent styling and structure. Use section to organize page content into logical blocks, each with its own heading and visual container.
+
+Sections automatically adapt their styling based on nesting depth and adjust heading levels to maintain meaningful, accessible page hierarchies. For simple visual separation without headings, use divider.
+
+Use cases
+Content grouping: Group related content with automatic semantic heading levels.
+Form organization: Organize complex forms into logical, visually distinct sections.
+Nested structure: Create nested sections for hierarchical content organization.
+Contextual styling: Benefit from context-aware section styling controlled by Shopify.
+Properties
+Configure the following properties on the section component.
+
+accessibilityLabel
+string
+required
+A label that describes the purpose or content of the component for assistive technologies like screen readers. Use this to provide additional context when the visible content alone doesn't clearly convey the component's purpose.
+
+heading
+string
+required
+The heading text displayed at the top of the section. This heading provides a title for the section's content and automatically uses the appropriate semantic heading level (h2, h3, h4) based on nesting depth to maintain proper document structure.
+
+padding
+"base" | "none"
+Default: 'base'
+required
+The padding applied to all edges of the element.
+
+base: applies padding that is appropriate for the element. Note that it might result in no padding if this is the right design decision in a particular context.
+none: removes all padding from the element. This can be useful when elements inside the section need to span to the edge of the section. For example, a full-width image. In this case, rely on s-box with a padding of 'base' to bring back the desired padding for the rest of the content.
+Slots
+The section component supports slots for additional content placement within the component. Learn more about using slots.
+
+children
+HTMLElement
+The content displayed within the section component, which groups related elements together in a logical unit with an optional heading.
+
+<s-stack gap="base">
+  <!-- Level 1 section -->
+  <s-section heading="Order details">
+    <s-paragraph>Order #1234 placed on January 15, 2024</s-paragraph>
+
+    <!-- Level 2 section - nested with different visual treatment -->
+    <s-section heading="Customer">
+      <s-text-field label="Name" value="Jane Smith"></s-text-field>
+      <s-text-field label="Email" value="jane@example.com"></s-text-field>
+
+      <!-- Level 3 section - further nested -->
+      <s-section heading="Billing address">
+        <s-text-field label="Street" value="123 Main St"></s-text-field>
+        <s-text-field label="City" value="Toronto"></s-text-field>
+      </s-section>
+    </s-section>
+
+    <!-- Another Level 2 section -->
+    <s-section heading="Items">
+      <s-paragraph>2 items totaling $49.99</s-paragraph>
+    </s-section>
+
+  </s-section>
+</s-stack>
+
+Best practices
+Use to group related content: The component provides semantic structure and visual hierarchy for grouping related content. Each section should contain a cohesive set of information or controls that belong together.
+Provide meaningful headings: Section headings help merchants scan and navigate content. Write headings that clearly describe what's in the section rather than using vague labels.
+Nest thoughtfully: Nested sections create visual and semantic hierarchy, but excessive nesting creates overly complex structures. Limit nesting to 2-3 levels where the hierarchy is meaningful and helps merchants understand the content organization.
+Consider when to remove padding: Full-width content like tables or images might need to extend to section edges. Remove padding when the content design requires it, but ensure nested content within has appropriate spacing.
+Use accessibility labels when needed: When the visible heading doesn't fully convey the section's purpose to screen reader users, provide an accessibility label with additional context.

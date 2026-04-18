@@ -1,0 +1,70 @@
+The icon component renders graphic symbols to visually communicate actions, status, and navigation throughout the interface. Use icon to reinforce button actions, indicate status states, or provide wayfinding cues that help users understand available functionality.
+
+Icons support multiple sizes, tones for semantic meaning, and can be integrated with other components like button, badge, and chip to enhance visual communication.
+
+Use cases
+Visual indicators: Add visual indicators to buttons for actions like save, delete, or edit.
+Status communication: Display status icons for success, warning, error, or informational states.
+Navigation cues: Provide visual cues in links or navigation elements.
+Feature identification: Help merchants quickly identify features or sections with icons.
+Properties
+Configure the following properties on the icon component.
+
+color
+"base" | "subdued"
+Default: 'base'
+required
+The color emphasis level that controls visual intensity.
+
+base: Primary color for body text, standard UI elements, and general content with good readability.
+subdued: Deemphasized color for secondary text, supporting labels, and less critical interface elements.
+tone
+"info" | "success" | "warning" | "critical" | "auto" | "neutral" | "caution"
+Default: 'auto'
+required
+The semantic meaning and color treatment of the component.
+
+info: Informational content or helpful tips.
+success: Positive outcomes or successful states.
+warning: Important warnings about potential issues.
+critical: Urgent problems or destructive actions.
+auto: Automatically determined based on context.
+neutral: General information without specific intent.
+caution: Advisory notices that need attention.
+type
+"" | "replace" | "search" | "split" | "link" | "edit" | "info" | "incomplete" | "complete" | "product" | "variant" | "collection" | "select" | "color" | "money" | "order" | "code" | "adjust" | "affiliate" | "airplane" | "alert-bubble" | "alert-circle" | "alert-diamond" | "alert-location" | "alert-octagon"View more
+required
+The icon to display from the icon library.
+
+Set to a valid icon name to display that icon. To hide the icon completely, use an empty string ''. To reserve the icon's space without displaying an icon, use 'empty'.
+
+size
+"small" | "base"
+Default: 'base'
+required
+The size of the icon.
+
+small: Smaller icon suitable for inline use within text or compact UI elements.
+base: Default size that works well for standalone icons and standard use cases.
+interestFor
+string
+required
+The ID of the component to show when users hover over or focus on this component. Use this to connect interactive components to popovers or tooltips that provide additional context or information.
+
+<s-stack direction="inline" gap="base">
+  <s-icon type="alert-circle" tone="warning"></s-icon>
+  <s-icon type="check-circle" tone="success"></s-icon>
+  <s-icon type="info" tone="info"></s-icon>
+  <s-icon type="alert-triangle" tone="caution"></s-icon>
+</s-stack>
+
+Best practices
+Use icons to support actions and status, not decorate: Icons should clarify what an action does or indicate state. Use the trash icon for delete actions, a checkmark for completed status, or a warning icon for errors. Avoid adding icons purely for visual interest.
+Maintain consistency across your interface: Always use the same icon for the same action or concept throughout your extension. If you use a pencil for edit in one place, use it everywhere. Inconsistent icon usage confuses merchants.
+Pair icons with text labels whenever possible: Icons work best as visual reinforcement alongside text. Without text, even common icons can be ambiguous—a gear might mean settings, preferences, or configuration. Only use icons alone in space-constrained contexts like icon-only buttons with proper accessibility labels.
+Choose icons that are universally recognizable: Stick to icons with established meanings like magnifying glass (search), trash (delete), and plus (add). Test any icon you're unsure about—if it needs explanation, it's not the right choice.
+Use semantic tones to communicate meaning: Apply tones like critical for destructive actions, success for positive states, and warning for caution. Tones should convey information, not serve as decoration.
+Limitations
+Icons are limited to the predefined set provided by the component. Custom SVG icons, icon fonts, or external icon libraries aren't supported.
+Icons can't be animated or include interactive states beyond color changes. For complex graphics or illustrations, use the image component instead.
+Icon color is determined by the tone and color properties. Custom colors or gradients aren't available.

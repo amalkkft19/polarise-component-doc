@@ -1,0 +1,65 @@
+The avatar component displays profile images or initials for users, customers,
+and businesses in a compact visual format. Use avatar to represent people or
+entities throughout the interface, with automatic fallback to initials when
+images aren't available. Avatars support multiple sizes for different contexts
+and provide consistent color assignment for initials based on the name provided.
+For product or content preview images, use thumbnail. For full-size images, use
+image. Use cases User representation: Display user avatars with initials or
+images. Staff identification: Show staff member avatars in admin interfaces.
+Visual recognition: Help identify users or customers with avatar imagery.
+Compact displays: Represent users in space-constrained interfaces. Properties
+Configure the following properties on the avatar component. initials string
+required The initials to display in the avatar when no image is provided or
+fails to load. Typically one or two characters representing a person's first and
+last name initials, such as "JD" for John Doe. src string required The URL or
+path to the avatar image. When provided, the image takes priority over initials.
+If the image fails to load or loads slowly, initials will be rendered as a
+fallback. size "small" | "small-200" | "base" | "large" | "large-200" Default:
+'base' required The size of the avatar image. small-200: Extra small avatar,
+suitable for compact displays or lists with many items. small: Small avatar,
+good for secondary contexts or tight layouts. base: Default size that works well
+in most contexts. large: Large avatar for emphasis or when the avatar is a focal
+point. large-200: Extra large avatar for prominent display. alt string required
+Alternative text that describes the avatar for accessibility. Provides a text
+description of the avatar for users with assistive technology and serves as a
+fallback when the avatar fails to load. A well-written description enables
+people with visual impairments to understand non-text content. When a screen
+reader encounters an avatar, it reads this description aloud. When an avatar
+fails to load, this text displays on screen, helping all users understand what
+content was intended. Learn more about writing effective alt text and the alt
+attribute. Events The avatar component provides event callbacks for handling
+user interactions. Learn more about handling events. error OnErrorEventHandler
+required A callback fired when the avatar image fails to load. Learn more about
+the error event. load CallbackEventListener<typeof tagName>
+  | null required A callback fired when the avatar image successfully loads.
+  Learn more about the load event.
+
+  <s-stack direction="inline" gap="base">
+    <s-avatar initials="SC" alt="Store customer" size="small-200"></s-avatar>
+    <s-avatar
+      initials="MR"
+      alt="Merchant representative"
+      size="small"
+    ></s-avatar>
+    <s-avatar initials="SM" alt="Store manager" size="base"></s-avatar>
+    <s-avatar initials="SF" alt="Staff member" size="large"></s-avatar>
+    <s-avatar
+      initials="SO"
+      alt="Store owner"
+      size="large-200"
+    ></s-avatar> </s-stack
+></typeof>
+Best practices Choose appropriate sizes: Use smaller sizes for compact contexts
+like tables and lists, and larger sizes for profile pages where the person is
+the primary focus. Provide meaningful alt text: Describe the avatar content like
+Sarah Chen or Acme Corporation, or use empty alt text if the name appears next
+to the avatar as text. Position near related content: Place avatars adjacent to
+the names or entities they represent for clear associations in lists, tables, or
+cards. Limitations Avatar images must be served from URLs accessible by the
+merchant's browser. If the image is hosted on a different domain, the server
+must include appropriate Access-Control-Allow-Origin headers or the image might
+fail to load. Only standard web image formats (JPEG, PNG, GIF, WebP, SVG) are
+supported. Unsupported formats will fall back to initials. The initials prop
+accepts a string that displays when no image is available. Characters beyond the
+first two might be truncated. Special characters, emojis, or non-Latin scripts
+might not render as expected.
