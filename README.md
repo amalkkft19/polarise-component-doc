@@ -43,7 +43,7 @@ A comprehensive documentation site for Shopify Polaris web components — the de
 
 Shopify Polaris is Shopify's design system. It provides developers and designers with the tools to build high-quality, consistent experiences for Shopify merchants.
 
-The **Polaris web components** (`@shopify/web-components`) are a set of framework-agnostic custom elements that implement the Polaris design language. They can be used in any web project regardless of the JavaScript framework (React, Vue, Angular, vanilla JS, etc.).
+The **Polaris web components** (`@shopify/polaris`) are a set of framework-agnostic custom elements that implement the Polaris design language. They can be used in any web project regardless of the JavaScript framework (React, Vue, Angular, vanilla JS, etc.).
 
 Key benefits:
 - **Framework-agnostic** — use them in any environment that supports Custom Elements v1.
